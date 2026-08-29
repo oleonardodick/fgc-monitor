@@ -113,7 +113,7 @@
 * UC-041 — Atualizar investimento
 * UC-042 — Excluir investimento
 * UC-043 — Resgatar investimento
-* UC-050 — Configurar limites
+* UC-050 — Configurar parâmetros
 * UC-051 — Atualizar limites
 * UC-070 — Consultar situação FGC 
 * UC-071 — Analizar exposição por conglomerado 
