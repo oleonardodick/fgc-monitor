@@ -1,0 +1,22 @@
+{
+  "name": "@fgc-monitor/backend",
+  "version": "0.0.0",
+  "private": true,
+  "type": "module",
+  "scripts": {
+    "dev": "tsx watch --env-file=.env src/index.ts",
+    "build": "tsc",
+    "start": "node --env-file=.env dist/index.js",
+    "test": "node --import tsx/esm --test src/**/*.test.ts"
+  },
+  "dependencies": {
+    "@fastify/cors": "^11.0.1",
+    "@fgc-monitor/shared": "workspace:*",
+    "fastify": "^5.6.0"
+  },
+  "devDependencies": {
+    "@types/node": "^24.13.3",
+    "tsx": "^4.20.5",
+    "typescript": "~6.0.2"
+  }
+}
