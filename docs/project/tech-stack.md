@@ -22,7 +22,7 @@ projeto usa, onde cada uma é usada e por quê.  Ao tentar utilizar um pacote,
 ### Banco de dados / persistência
 
 | Pacote | Versão | Onde é usado | Propósito |
-|---|---|---|---|
+|Mongoose|9.9.4|`packages/backend/src/config`, `packages/backend/src/plugins`|ODM para conectar e modelar dados no MongoDB|
 | _(a definir)_ | | | |
 
 Este projeto utiliza como banco de dados o **MongoDB**, utilizando o **Mongoose**
@@ -33,7 +33,7 @@ plugin do Fastify em `packages/backend/src/plugins`.
 ### Outros pacotes do backend
 
 | Pacote | Versão | Onde é usado | Propósito |
-|---|---|---|---|
+|fastify-plugin|6.0.0|---|---|
 | _(a definir)_ | | | |
 
 ## `packages/shared`

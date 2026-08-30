@@ -1,11 +1,11 @@
+import { loadEnvConfig } from "./config/env.js";
 import { buildServer } from "./server.js";
 
-const PORT = Number(process.env.PORT ?? 3000);
-const HOST = process.env.HOST ?? "0.0.0.0";
-
 async function main() {
+  const config = loadEnvConfig();
   const app = await buildServer();
-  await app.listen({ port: PORT, host: HOST });
+
+  await app.listen({ port: config.port, host: config.host });
 }
 
 main().catch((error) => {

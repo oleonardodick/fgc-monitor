@@ -3,7 +3,7 @@ import { test } from "node:test";
 import { buildServer } from "./server.js";
 
 test("GET /health returns status ok", async (t) => {
-  const app = await buildServer();
+  const app = await buildServer({ registerMongoose: false });
 
   t.after(async () => {
     await app.close();
