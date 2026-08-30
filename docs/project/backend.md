@@ -74,7 +74,8 @@ aplicação como um plugin do Fastify em `src/plugins/`, quando fizer sentido.
   handler global de erros configurado em `plugins/`.
 
 - **Documentação**: Toda nova rota deve possuir sua documentação feita utilizando
-o **Swagger** como ferramenta de documentação.
+o **Swagger** como ferramenta de documentação. Pra a visualização dessa documentação,
+foi adicionado o Scalar neste projeto.
 
 
 ## O que NÃO colocar aqui

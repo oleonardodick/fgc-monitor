@@ -15,15 +15,22 @@ projeto usa, onde cada uma é usada e por quê.  Ao tentar utilizar um pacote,
 
 | Pacote | Versão | Onde é usado | Propósito |
 |---|---|---|---|
-| _(a definir)_ | | | |
+| `zod` | `4.5.4` | (dependência direta — ver nota abaixo) | Necessário para inferência de tipos dos schemas importados de `shared` (`z.infer`) |
+| `react-hook-form` | `7.87.0` | `apps/web/src/hooks/useZodForm.ts`, `apps/web/src/features/**` | Gerenciamento de formulários |
+| `@hookform/resolvers` | `5.9.1` | `apps/web/src/hooks/useZodForm.ts` | Ponte entre `react-hook-form` e os schemas Zod (`zodResolver`) |
+| `axios` | `^1.20.0` | `apps/web/src/services/httpClient.ts`, `apps/web/src/features/**/services` | Cliente HTTP para comunicação com `apps/api` |
+| `react-router-dom` | `7.18.3` | `apps/web/src/routes/` | Roteamento da aplicação (rotas aninhadas, lazy loading de páginas) |
+
+> `useZodForm` é um hook genérico (`useForm` do react-hook-form + `zodResolver`
+> + um schema de `packages/shared/src/schemas`) usado por várias features.
+> Por isso fica em `src/hooks/`, e não dentro de uma `feature/` específica.
 
 ## `packages/backend` — Backend
 
 ### Banco de dados / persistência
 
 | Pacote | Versão | Onde é usado | Propósito |
-|Mongoose|9.9.4|`packages/backend/src/config`, `packages/backend/src/plugins`|ODM para conectar e modelar dados no MongoDB|
-| _(a definir)_ | | | |
+|`mongoose`|`9.9.4`|`packages/backend/src/config`, `packages/backend/src/plugins`|ODM para conectar e modelar dados no MongoDB|
 
 Este projeto utiliza como banco de dados o **MongoDB**, utilizando o **Mongoose**
 como ODM para conexão.
@@ -33,18 +40,31 @@ plugin do Fastify em `packages/backend/src/plugins`.
 ### Outros pacotes do backend
 
 | Pacote | Versão | Onde é usado | Propósito |
-|fastify-plugin|6.0.0|---|---|
-| _(a definir)_ | | | |
+|`fastify-plugin`|`6.0.0`|`packages/backend/src/plugins`|Necessário para disponibilizar plugins customizados para a aplicação.|
+| `zod` | `4.5.4` | (dependência direta — ver nota abaixo) | Necessário para inferência de tipos dos schemas importados de `shared`, usados em `validators/` |
 
 ## `packages/shared`
 
-| Pacote | Versão | Onde é usado | Propósito |
+ Pacote | Versão | Onde é usado | Propósito |
 |---|---|---|---|
-| _(a definir)_ | | | |
+| `zod` | `4.5.4` | `packages/shared/src/schemas` | Define os schemas de validação compartilhados entre `web` e `api` |
 
 > Pacotes aqui precisam funcionar em qualquer ambiente JS (sem `window` nem
 > APIs exclusivas do Node). Bibliotecas de validação (ex.: Zod, Yup) são o
 > caso mais comum — ficam em `packages/shared/src/schemas`.
+
+### Nota sobre dependências "transversais" (ex.: Zod)
+
+Quando um pacote (como o Zod) é usado por `shared` **e também** precisa ser
+resolvido diretamente por `frontend`/`backend` (porque eles usam `z.infer<...>` sobre
+os tipos importados, ou porque estendem/compõem schemas localmente), ele deve
+ser declarado como dependência direta **nos três `package.json`**
+(`shared`, `frontend` e `backend`) — mesmo em um monorepo com workspaces. Depender
+apenas do hoisting do gerenciador de pacotes gera uma "phantom dependency":
+o pacote funciona por acaso, não por declaração explícita, e pode quebrar se
+o algoritmo de resolução do gerenciador mudar. A versão deve ser mantida
+igual nos três `package.json` para evitar dois `zod` diferentes coexistindo
+no bundle.
 
 ## Dependências específicas de uma única feature
 
