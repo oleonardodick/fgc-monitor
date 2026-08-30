@@ -3,6 +3,8 @@ import type { HealthResponse } from "@fgc-monitor/shared";
 import Fastify from "fastify";
 import { loadEnvConfig } from "./config/env.js";
 import mongoosePlugin from "./plugins/mongoose.js";
+import scalarPlugin from "./plugins/scalar.js";
+import swaggerPlugin from "./plugins/swagger.js";
 
 export interface BuildServerOptions {
   /**
@@ -23,16 +25,39 @@ export async function buildServer(options?: BuildServerOptions) {
     origin: config.corsOrigin,
   });
 
+  await app.register(swaggerPlugin);
+  await app.register(scalarPlugin);
+
   if (registerMongoose) {
     await app.register(mongoosePlugin);
   }
 
-  app.get("/health", async (): Promise<HealthResponse> => {
-    return {
-      status: "ok",
-      timestamp: new Date().toISOString(),
-    };
-  });
+  app.get(
+    "/health",
+    {
+      schema: {
+        tags: ["health"],
+        description: "Verifica se a API está operacional.",
+        summary: "Health check",
+        response: {
+          200: {
+            type: "object",
+            properties: {
+              status: { type: "string", enum: ["ok"] },
+              timestamp: { type: "string", format: "date-time" },
+            },
+            required: ["status", "timestamp"],
+          },
+        },
+      },
+    },
+    async (): Promise<HealthResponse> => {
+      return {
+        status: "ok",
+        timestamp: new Date().toISOString(),
+      };
+    },
+  );
 
   return app;
 }

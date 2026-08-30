@@ -40,6 +40,9 @@ plugin do Fastify em `packages/backend/src/plugins`.
 ### Outros pacotes do backend
 
 | Pacote | Versão | Onde é usado | Propósito |
+|`@fastify/cors`|`^11.0.1`|`packages/backend/src/plugins`|Habilita CORS no servidor Fastify|
+|`@fastify/swagger`|`9.8.1`|`packages/backend/src/plugins`|Geração dinâmica de spec OpenAPI a partir dos schemas das rotas|
+|`@scalar/fastify-api-reference`|`1.67.0`|`packages/backend/src/plugins`|Interface visual interativa para documentação OpenAPI (rota `/docs`)|
 |`fastify-plugin`|`6.0.0`|`packages/backend/src/plugins`|Necessário para disponibilizar plugins customizados para a aplicação.|
 | `zod` | `4.5.4` | (dependência direta — ver nota abaixo) | Necessário para inferência de tipos dos schemas importados de `shared`, usados em `validators/` |
 
