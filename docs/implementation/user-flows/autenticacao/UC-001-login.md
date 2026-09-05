@@ -116,7 +116,27 @@ O fluxo é concluído.
 
 ---
 
-# 4. Fluxos alternativos
+# 4. Regras de negócio
+
+### RN-001 — Credenciais válidas
+
+Apenas usuários com credenciais válidas podem acessar áreas protegidas.
+
+### RN-002 — Autenticação inválida
+
+Uma autenticação inválida não deve criar uma sessão autenticada.
+
+# 5. Regras de segurança
+
+### RS-001 — Mensagens de autenticação
+
+Mensagens de erro não devem revelar informações que permitam identificar se um usuário está cadastrado ou se uma credencial específica está incorreta.
+
+### RS-002 — Expiração da sessão
+
+Sessões autenticadas devem possuir mecanismo de expiração.
+
+# 6. Fluxos alternativos
 
 ## FA-001 — Dados inválidos
 
@@ -205,7 +225,93 @@ Validando
 
 ---
 
-# 7. Critérios de aceite
+# 7. Interface do usuário
+
+## Elementos da interface
+
+| Elemento            | Tipo   | Obrigatório | Ação                 |
+| ------------------- | ------ | ----------: | -------------------- |
+| E-mail              | Input  |         Sim | Informar e-mail      |
+| Senha               | Input  |         Sim | Informar senha       |
+| Entrar              | Button |           — | Iniciar autenticação |
+| Esqueci minha senha | Link   |           — | Iniciar recuperação  |
+| Criar conta         | Link   |           — | Iniciar cadastro     |
+
+## Estados da interface
+
+### Estado inicial
+
+- Campos de e-mail e senha vazios.
+- Botão "Entrar" disponível.
+
+### Preenchimento
+
+- E-mail apresenta o valor informado pelo usuário.
+- Senha permanece mascarada.
+
+### Validação
+
+Quando houver erro de validação:
+
+- O campo inválido deve ser destacado.
+- Uma mensagem de validação deve ser apresentada próxima ao campo.
+- O usuário deve poder corrigir o valor.
+
+### Autenticando
+
+Durante a autenticação:
+
+- O botão "Entrar" deve indicar que a operação está em andamento.
+- O usuário não deve conseguir iniciar múltiplas autenticações simultaneamente.
+
+### Credenciais inválidas
+
+- Uma mensagem informando que as credenciais são inválidas deve ser apresentada.
+- Os campos devem permanecer disponíveis para nova tentativa.
+- O sistema não deve indicar se o e-mail ou a senha está incorreto individualmente.
+
+### Erro de serviço
+
+- Apresentar uma mensagem informando que não foi possível realizar o login.
+- Permitir que o usuário tente novamente.
+
+## Navegação
+
+| Origem | Ação                      | Destino                   |
+|--------|-------------------------- |-------------------------- |
+| Login  | Esqueci minha senha       | UC-004 — Recuperar senha  |
+| Login  | Criar conta               | UC-003 — Criar conta      |
+| Login  | Autenticação bem-sucedida | `/dashboard`              |
+
+## Responsividade
+
+A interface deve ser utilizável em:
+
+- Desktop
+- Tablet
+- Mobile
+
+## Acessibilidade
+
+- Todos os campos devem possuir identificação adequada.
+- O formulário deve ser navegável pelo teclado.
+- Mensagens de erro devem ser associadas aos respectivos campos.
+- O foco deve ser visível.
+- O botão e os links devem possuir estados de interação acessíveis.
+
+## Fora do escopo
+
+Este documento não define:
+
+- Cores.
+- Tipografia.
+- Espaçamentos.
+- Ícones.
+- Layout final.
+- Componentes específicos de uma biblioteca de UI.
+- Tecnologia utilizada na implementação.
+
+# 8. Critérios de aceite
 
 ### Login com sucesso
 
@@ -235,18 +341,10 @@ Validando
 
 ---
 
-# 8. Referências
+# 9. Referências
 
 ### Casos de uso relacionados
 
 * `UC-003 — Criar conta`
 * `UC-004 — Recuperar senha`
 * `UC-002 — Logout`
-
-### Interfaces relacionadas
-* [UI-001 - Login](../../ui/UI-001-login.md)
-
-### Regras de negócio relacionadas
-* [BR-001 - Login](../../business-rules/autenticacao.md)
-
----

@@ -107,7 +107,39 @@ O fluxo é concluído.
 
 ---
 
-# 4. Fluxos alternativos
+# 4. Regras de negócio
+
+## 2. Regras de criação
+
+### RN-001 — Dados informados
+
+Todos os campos devem estar informados para que uma conta seja criada corretamente.
+
+### RN-002 — E-mail único
+
+Não deve ser possível realizar a criação de uma nova conta com um e-mail já cadastrado.
+
+### RN-003 — Senhas coincidindo
+
+As duas senhas informadas devem ser iguais para que o cadastro seja realizado.
+
+### RN-004 — Senhas coincidindo
+
+O e-mail deve estar em um formato válido para que o cadastro seja realizado.
+
+## 3. Regras de segurança
+
+### RS-001 — Senha segura
+
+A senha cadastrada somente é válida quando conter o seguinte:
+* Entre 6 e 8 caracteres.
+* Pelo menos 3 dos seguintes critérios:
+    * 1 letra maiúscula.
+    * 1 letra minúscula.
+    * 1 número.
+    * 1 caractere especial.
+
+# 5. Fluxos alternativos
 
 ## FA-001 — Dados inválidos
 
@@ -121,7 +153,7 @@ O fluxo é concluído.
 
 ---
 
-# 5. Exceções
+# 6. Exceções
 
 ## EX-001 — Serviço de criação indisponível
 
@@ -141,7 +173,7 @@ Caso ocorra um erro não previsto:
 
 ---
 
-# 6. Estados
+# 7. Estados
 
 O fluxo de cadastro possui os seguintes estados principais:
 
@@ -166,7 +198,94 @@ Validando
 
 ---
 
-# 7. Critérios de aceite
+# 8. Interface de usuário
+
+## Elementos da interface
+
+| Elemento            | Tipo   | Obrigatório | Ação                       |
+| ------------------- | ------ | ----------: | -------------------------- |
+| Nome                | Input  |         Sim | Informar nome              |
+| E-mail              | Input  |         Sim | Informar e-mail            |
+| Senha               | Input  |         Sim | Informar senha             |
+| Confirmar senha     | Input  |         Sim | Informar novamente a senha |
+| Criar Conta         | Button |           — | Iniciar cadastro           |
+| Já possuo uma conta | Link   |           — | Iniciar login              |
+
+## Estados da interface
+
+### Estado inicial
+
+- Campos de nome, e-mail e senha vazios.
+- Botão "Criar Conta" disponível.
+
+### Preenchimento
+
+- Nome apresenta o valor informado pelo usuário.
+- E-mail apresenta o valor informado pelo usuário.
+- Senha permanece mascarada.
+- Confirmar senha permanece mascarada.
+
+### Validação
+
+Quando houver erro de validação:
+
+- O campo inválido deve ser destacado.
+- Uma mensagem de validação deve ser apresentada próxima ao campo.
+- O usuário deve poder corrigir o valor.
+
+### Criando conta
+
+Durante a criação da conta:
+
+- O botão "Criar conta" deve indicar que a operação está em andamento.
+- O usuário não deve conseguir criar múltiplos usuários simultaneamente.
+
+### Dados inválidos
+
+- Cada campo deve apresentar sua mensagem de dado inválido.
+- Os campos devem permanecer disponíveis para nova tentativa.
+
+### Erro de serviço
+
+- Apresentar uma mensagem informando que não foi possível realizar o cadastro.
+- Permitir que o usuário tente novamente.
+
+## Navegação
+
+| Origem              | Ação                        | Destino  |
+|-------------------- |---------------------------- |--------- |
+| Cadastro de usuário | Criação bem sucedida        | `/login` |
+| Cadastro de usuário | Usuário já possui uma conta | `/login` |
+
+## Responsividade
+
+A interface deve ser utilizável em:
+
+- Desktop
+- Tablet
+- Mobile
+
+## Acessibilidade
+
+- Todos os campos devem possuir identificação adequada.
+- O formulário deve ser navegável pelo teclado.
+- Mensagens de erro devem ser associadas aos respectivos campos.
+- O foco deve ser visível.
+- O botão e os links devem possuir estados de interação acessíveis.
+
+## Fora do escopo
+
+Este documento não define:
+
+- Cores.
+- Tipografia.
+- Espaçamentos.
+- Ícones.
+- Layout final.
+- Componentes específicos de uma biblioteca de UI.
+- Tecnologia utilizada na implementação.
+
+# 8. Critérios de aceite
 
 ### Cadastro com sucesso
 
@@ -198,16 +317,9 @@ Validando
 
 ---
 
-# 8. Referências
+# 9. Referências
 
 ### Casos de uso relacionados
 
 * `UC-003 — Login`
-
-### Interfaces relacionadas
-* [UI-001 - Criar conta](../../ui/UI-003-criar-usuario.md)
-
-### Regras de negócio relacionadas
-* [BR-001 - Criar conta](../../business-rules/criacao-usuario.md)
-
 ---
