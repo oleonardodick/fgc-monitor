@@ -77,6 +77,12 @@ aplicação como um plugin do Fastify em `src/plugins/`, quando fizer sentido.
 o **Swagger** como ferramenta de documentação. Pra a visualização dessa documentação,
 foi adicionado o Scalar neste projeto.
 
+- **Segurança**: Todas as rotas acessadas deverão ter controle de token ativo, a menos que
+exteja explicitamente descrito que a rota não precisa possuir este controle.
+
+- **Identificador**: É expressamente **proibido** utilizar IDs sequenciais para qualquer
+cadastro nesta aplicação.
+
 
 ## O que NÃO colocar aqui
 

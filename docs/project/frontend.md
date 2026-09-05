@@ -50,6 +50,9 @@ packages/frontend/
 - Tipos que também são usados pelo backend **não** devem ir em
   `src/types/` — devem vir de `packages/shared`.
 
+- **Segurança**: Nenhum dado sensível deve estar exposto em URL ou header
+das requisições. Todos devem ser tratados de forma segura.
+
 ## O que NÃO colocar aqui
 
 - Nenhuma lógica que dependa do Node.js (fs, path, process.env do servidor).
