@@ -317,7 +317,12 @@ Este documento não define:
 
 ---
 
-# 9. Referências
+# 9. Visibilidade da funcionalidade
+
+Esta funcionalidade, assim como suas rotas, estarão disponíveis para todas as
+pessoas, ou seja, não é necessário um token válido para acessar a rotina.
+
+# 10. Referências
 
 ### Casos de uso relacionados
 
