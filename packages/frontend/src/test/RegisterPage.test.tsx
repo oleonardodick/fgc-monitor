@@ -1,7 +1,7 @@
 import { fireEvent, render, screen } from "@testing-library/react";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it } from "vitest";
-import RegisterPage from "./pages/RegisterPage";
+import RegisterPage from "../pages/RegisterPage";
 
 describe("RegisterPage", () => {
   function renderPage() {
@@ -44,5 +44,23 @@ describe("RegisterPage", () => {
     expect(screen.getByText("E-mail é obrigatorio")).toBeInTheDocument();
     expect(screen.getByText("Senha é obrigatoria")).toBeInTheDocument();
     expect(screen.getByText("Confirmar senha é obrigatoria")).toBeInTheDocument();
+  });
+
+  it("toggles password visibility between hidden and shown", () => {
+    renderPage();
+
+    const senha = screen.getByLabelText("Senha") as HTMLInputElement;
+    expect(senha.type).toBe("password");
+
+    // O formulário tem dois campos de senha (Senha e Confirmar senha).
+    // Pegamos o toggle que está dentro do mesmo wrapper do input "Senha".
+    const senhaContainer = senha.closest("div");
+    expect(senhaContainer).not.toBeNull();
+
+    fireEvent.click(screen.getAllByRole("button", { name: /mostrar senha/i })[0]);
+    expect(senha.type).toBe("text");
+
+    fireEvent.click(screen.getAllByRole("button", { name: /ocultar senha/i })[0]);
+    expect(senha.type).toBe("password");
   });
 });

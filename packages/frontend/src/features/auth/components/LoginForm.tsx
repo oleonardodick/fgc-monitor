@@ -4,6 +4,8 @@ import { Link } from "react-router-dom";
 import { Button } from "../../../components/Button";
 import { FormError } from "../../../components/FormError";
 import { FormField } from "../../../components/FormField";
+import { PasswordInput } from "../../../components/PasswordInput";
+import { Mail } from "lucide-react";
 
 interface LoginFormProps {
   onSubmit: (credentials: LoginDTO) => Promise<void>;
@@ -58,11 +60,12 @@ export function LoginForm({ onSubmit, isSubmitting, errorMessage }: LoginFormPro
           clearFieldError("email");
         }}
         error={fieldErrors.email}
+        icon={Mail}
+        iconPosition="right"
       />
 
-      <FormField
+      <PasswordInput
         label="Senha"
-        type="password"
         autoComplete="current-password"
         placeholder="Sua senha"
         value={password}

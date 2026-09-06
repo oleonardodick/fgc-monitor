@@ -10,6 +10,8 @@ import { Link } from "react-router-dom";
 import { Button } from "../../../components/Button";
 import { FormError } from "../../../components/FormError";
 import { FormField } from "../../../components/FormField";
+import { PasswordInput } from "../../../components/PasswordInput";
+import { Mail, User } from "lucide-react";
 
 const PASSWORD_CRITERIA_MESSAGE = `A senha deve ter entre ${PASSWORD_MIN_LENGTH} e ${PASSWORD_MAX_LENGTH} caracteres e cumprir ao menos ${MIN_PASSWORD_CRITERIA} critérios de segurança`;
 
@@ -85,6 +87,8 @@ export function RegisterForm({ onSubmit, isSubmitting, errorMessage }: RegisterF
           clearFieldError("name");
         }}
         error={fieldErrors.name}
+        icon={User}
+        iconPosition="right"
       />
 
       <FormField
@@ -98,11 +102,12 @@ export function RegisterForm({ onSubmit, isSubmitting, errorMessage }: RegisterF
           clearFieldError("email");
         }}
         error={fieldErrors.email}
+        icon={Mail}
+        iconPosition="right"
       />
 
-      <FormField
+      <PasswordInput
         label="Senha"
-        type="password"
         autoComplete="new-password"
         placeholder="Sua senha"
         value={password}
@@ -113,9 +118,8 @@ export function RegisterForm({ onSubmit, isSubmitting, errorMessage }: RegisterF
         error={fieldErrors.password}
       />
 
-      <FormField
+      <PasswordInput
         label="Confirmar senha"
-        type="password"
         autoComplete="new-password"
         placeholder="Repita sua senha"
         value={confirmPassword}

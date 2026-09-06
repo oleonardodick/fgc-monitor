@@ -1,10 +1,10 @@
 import * as React from "react";
 import { useId } from "react";
 import { cn } from "../utils/merge";
-import { Input } from "./Input";
+import { Input, type InputProps } from "./Input";
 import { Label } from "./Label";
 
-export type FormFieldProps = Omit<React.InputHTMLAttributes<HTMLInputElement>, "id"> & {
+export type FormFieldProps = Omit<InputProps, "id"> & {
   label: string;
   error?: string;
   id?: string;
