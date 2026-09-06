@@ -1,11 +1,11 @@
 import type { LoginDTO } from "@fgc-monitor/shared";
+import { Mail } from "lucide-react";
 import { type FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../../../components/Button";
 import { FormError } from "../../../components/FormError";
 import { FormField } from "../../../components/FormField";
 import { PasswordInput } from "../../../components/PasswordInput";
-import { Mail } from "lucide-react";
 
 interface LoginFormProps {
   onSubmit: (credentials: LoginDTO) => Promise<void>;

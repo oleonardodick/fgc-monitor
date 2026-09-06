@@ -5,13 +5,13 @@ import {
   PASSWORD_MAX_LENGTH,
   PASSWORD_MIN_LENGTH,
 } from "@fgc-monitor/shared";
+import { Mail, User } from "lucide-react";
 import { type FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../../../components/Button";
 import { FormError } from "../../../components/FormError";
 import { FormField } from "../../../components/FormField";
 import { PasswordInput } from "../../../components/PasswordInput";
-import { Mail, User } from "lucide-react";
 
 const PASSWORD_CRITERIA_MESSAGE = `A senha deve ter entre ${PASSWORD_MIN_LENGTH} e ${PASSWORD_MAX_LENGTH} caracteres e cumprir ao menos ${MIN_PASSWORD_CRITERIA} critérios de segurança`;
 
@@ -50,7 +50,7 @@ export function RegisterForm({ onSubmit, isSubmitting, errorMessage }: RegisterF
     if (!confirmPassword) {
       errors.confirmPassword = "Confirmar senha é obrigatoria";
     } else if (password !== confirmPassword) {
-      errors.confirmPassword = "As senhas não coinciden";
+      errors.confirmPassword = "As senhas não coincidem";
     }
 
     setFieldErrors(errors);

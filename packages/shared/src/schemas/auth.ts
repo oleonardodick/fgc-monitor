@@ -55,6 +55,6 @@ export const createAccountSchema = z
       .min(1, "Confirmar senha é obrigatoria")
       .describe("Confirmação da senha"),
   })
-  .refine((data) => data.password === data.confirmPassword, "As senhas não coinciden");
+  .refine((data) => data.password === data.confirmPassword, "As senhas não coincidem");
 
 export type CreateAccountDTO = z.infer<typeof createAccountSchema>;

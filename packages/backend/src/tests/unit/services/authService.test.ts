@@ -122,7 +122,7 @@ function createCreateAccountDeps(overrides?: {
   };
 }
 
-test("createAccount: deve criar usuário y retornar dados públicos", async () => {
+test("createAccount: deve criar usuário e retornar dados públicos", async () => {
   const user = createValidUser();
   let createdData: unknown;
   const deps = createCreateAccountDeps({
