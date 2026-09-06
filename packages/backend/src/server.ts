@@ -2,9 +2,13 @@ import cors from "@fastify/cors";
 import type { HealthResponse } from "@fgc-monitor/shared";
 import Fastify from "fastify";
 import { loadEnvConfig } from "./config/env.js";
+import { authenticate } from "./middlewares/auth.js";
+import bcryptPlugin from "./plugins/bcrypt.js";
+import jwtPlugin from "./plugins/jwt.js";
 import mongoosePlugin from "./plugins/mongoose.js";
 import scalarPlugin from "./plugins/scalar.js";
 import swaggerPlugin from "./plugins/swagger.js";
+import { authRoutes } from "./routes/auth.js";
 
 export interface BuildServerOptions {
   /**
@@ -27,10 +31,18 @@ export async function buildServer(options?: BuildServerOptions) {
 
   await app.register(swaggerPlugin);
   await app.register(scalarPlugin);
+  await app.register(jwtPlugin);
+  await app.register(bcryptPlugin);
 
   if (registerMongoose) {
     await app.register(mongoosePlugin);
   }
+
+  // Global preValidation hook — protege todas as rotas, exceto as públicas
+  app.addHook("preValidation", authenticate);
+
+  // Rotas públicas (auth + health)
+  await app.register(authRoutes);
 
   app.get(
     "/health",
@@ -49,6 +61,9 @@ export async function buildServer(options?: BuildServerOptions) {
             required: ["status", "timestamp"],
           },
         },
+      },
+      config: {
+        isPublic: true,
       },
     },
     async (): Promise<HealthResponse> => {

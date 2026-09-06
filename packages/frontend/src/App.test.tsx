@@ -1,61 +1,58 @@
-import { render, screen, waitFor } from "@testing-library/react";
-import { afterEach, describe, expect, it, vi } from "vitest";
-import App from "./App";
+import { render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
+import { describe, expect, it } from "vitest";
+import { AuthProvider } from "./hooks/useAuth";
+import LoginPage from "./pages/LoginPage";
 
-describe("App", () => {
-  afterEach(() => {
-    vi.restoreAllMocks();
-  });
-
-  it("renders the app title", () => {
-    vi.stubGlobal("fetch", vi.fn().mockReturnValue(new Promise(() => {})));
-
-    render(<App />);
+describe("LoginPage", () => {
+  it("renders the login page title", () => {
+    render(
+      <AuthProvider>
+        <MemoryRouter initialEntries={["/login"]}>
+          <LoginPage />
+        </MemoryRouter>
+      </AuthProvider>,
+    );
 
     expect(screen.getByText("FGC Monitor")).toBeInTheDocument();
-    expect(screen.getByText("Monorepo pronto")).toBeInTheDocument();
+    expect(screen.getByRole("heading", { name: "Entrar" })).toBeInTheDocument();
   });
 
-  it("shows loading state while fetching health", () => {
-    vi.stubGlobal("fetch", vi.fn().mockReturnValue(new Promise(() => {})));
-
-    render(<App />);
-
-    expect(screen.getByText("Carregando...")).toBeInTheDocument();
-  });
-
-  it("shows health data when fetch succeeds", async () => {
-    vi.stubGlobal(
-      "fetch",
-      vi.fn().mockResolvedValue({
-        ok: true,
-        json: async () => ({
-          status: "ok",
-          timestamp: "2026-08-29T12:00:00.000Z",
-        }),
-      }),
+  it("renders email and password fields", () => {
+    render(
+      <AuthProvider>
+        <MemoryRouter initialEntries={["/login"]}>
+          <LoginPage />
+        </MemoryRouter>
+      </AuthProvider>,
     );
 
-    render(<App />);
-
-    await waitFor(() => {
-      expect(screen.getByText(/"status": "ok"/)).toBeInTheDocument();
-    });
+    expect(screen.getByLabelText("E-mail")).toBeInTheDocument();
+    expect(screen.getByLabelText("Senha")).toBeInTheDocument();
   });
 
-  it("shows error when fetch fails", async () => {
-    vi.stubGlobal(
-      "fetch",
-      vi.fn().mockResolvedValue({
-        ok: false,
-        status: 500,
-      }),
+  it("renders the submit button", () => {
+    render(
+      <AuthProvider>
+        <MemoryRouter initialEntries={["/login"]}>
+          <LoginPage />
+        </MemoryRouter>
+      </AuthProvider>,
     );
 
-    render(<App />);
+    expect(screen.getByRole("button", { name: /entrar/i })).toBeInTheDocument();
+  });
 
-    await waitFor(() => {
-      expect(screen.getByText("Erro: HTTP 500")).toBeInTheDocument();
-    });
+  it("renders links to forgot password and create account", () => {
+    render(
+      <AuthProvider>
+        <MemoryRouter initialEntries={["/login"]}>
+          <LoginPage />
+        </MemoryRouter>
+      </AuthProvider>,
+    );
+
+    expect(screen.getByText("Esqueci minha senha")).toBeInTheDocument();
+    expect(screen.getByText("Criar conta")).toBeInTheDocument();
   });
 });

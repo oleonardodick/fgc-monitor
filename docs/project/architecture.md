@@ -95,3 +95,4 @@ detalhes em [`shared.md`](./shared.md).
 | Data | Decisão                                                                                                                              | Motivo                  |
 |----- |--------------------------------------------------------------------------------------------------------------------------------------|-------------------------|
 | ———— | Estrutura inicial de pastas definida (camadas: routes/controllers/services/repositories no backend; features/components no frontend) | Padrão amplamente adotado, favorece separação de responsabilidades e testabilidade |
+| 2026-09-05 | Adicionado @fastify/jwt + bcryptjs como plugins Fastify para autenticação. AuthService com injeção de dependência manual para testabilidade. | Login (UC-001) — service precisa ser testável sem depender do banco real |

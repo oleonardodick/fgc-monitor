@@ -44,6 +44,8 @@ plugin do Fastify em `packages/backend/src/plugins`.
 |`@fastify/swagger`|`9.8.1`|`packages/backend/src/plugins`|Geração dinâmica de spec OpenAPI a partir dos schemas das rotas|
 |`@scalar/fastify-api-reference`|`1.67.0`|`packages/backend/src/plugins`|Interface visual interativa para documentação OpenAPI (rota `/docs`)|
 |`fastify-plugin`|`6.0.0`|`packages/backend/src/plugins`|Necessário para disponibilizar plugins customizados para a aplicação.|
+|`@fastify/jwt`|`^10.2.2`|`packages/backend/src/plugins`|Geração e validação de tokens JWT para autenticação|
+|`bcryptjs`|`^3.0.3`|`packages/backend/src/plugins`|Hashing de senhas (bcrypt puro JS, sem compilação nativa)|
 | `zod` | `4.5.4` | (dependência direta — ver nota abaixo) | Necessário para inferência de tipos dos schemas importados de `shared`, usados em `validators/` |
 
 ## `packages/shared`
