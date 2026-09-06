@@ -11,9 +11,12 @@
   },
   "scripts": {
     "build": "tsc",
-    "dev": "tsc --watch --preserveWatchOutput"
+    "dev": "tsc --watch --preserveWatchOutput",
+    "test": "node --import tsx/esm --test src/**/*.test.ts"
   },
   "devDependencies": {
+    "@types/node": "^24.13.3",
+    "tsx": "^4.20.5",
     "typescript": "~6.0.2"
   },
   "dependencies": {

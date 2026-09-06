@@ -1,12 +1,12 @@
 import assert from "node:assert/strict";
 import { mock, test } from "node:test";
-import type { LoginDTO, UserPublic } from "@fgc-monitor/shared";
+import type { CreateAccountInput, LoginDTO } from "@fgc-monitor/shared";
+import type { IUserDocument } from "../../../models/user.js";
 import type { IBcryptPlugin } from "../../../plugins/bcrypt.js";
-import type { IUserRepository } from "../../../repositories/userRepository.js";
-import type { IJwtPlugin } from "../../../services/authService.js";
-import { login } from "../../../services/authService.js";
+import type { CreateUserData, IUserRepository } from "../../../repositories/userRepository.js";
+import { createAccount, type IJwtPlugin, login } from "../../../services/authService.js";
 
-function createValidUser() {
+function createValidUser(): IUserDocument {
   return {
     id: "661c8a1b2e5f3a1d4c3b2a1a",
     email: "user@example.com",
@@ -14,7 +14,7 @@ function createValidUser() {
     passwordHash: "$2a$10$hashedpassword",
     active: true,
     createdAt: new Date(),
-  };
+  } as IUserDocument;
 }
 
 function createDeps(overrides?: {
@@ -95,6 +95,92 @@ test("login: deve lançar AuthenticationServiceError quando repositório lança 
     () => login(validCredentials, deps),
     (error: unknown) => {
       assert.equal((error as Error).message, "Serviço de autenticação indisponível");
+      return true;
+    },
+  );
+});
+
+const validCreateAccountInput: CreateAccountInput = {
+  name: "Test User",
+  email: " USER@EXAMPLE.COM ",
+  password: "Ab1@ef",
+};
+
+function createCreateAccountDeps(overrides?: {
+  findByEmail?: IUserRepository["findByEmail"];
+  create?: IUserRepository["create"];
+  hash?: IBcryptPlugin["hash"];
+}) {
+  return {
+    userRepository: {
+      findByEmail: overrides?.findByEmail ?? mock.fn(() => Promise.resolve(null)),
+      create: overrides?.create ?? mock.fn(() => Promise.resolve(createValidUser())),
+    } as IUserRepository,
+    bcrypt: {
+      hash: overrides?.hash ?? mock.fn(() => Promise.resolve("$2a$10$hashedpassword")),
+    } as IBcryptPlugin,
+  };
+}
+
+test("createAccount: deve criar usuário y retornar dados públicos", async () => {
+  const user = createValidUser();
+  let createdData: unknown;
+  const deps = createCreateAccountDeps({
+    findByEmail: mock.fn(() => Promise.resolve(null)),
+    create: mock.fn((data: CreateUserData) => {
+      createdData = data;
+      return Promise.resolve(user);
+    }),
+    hash: mock.fn(() => Promise.resolve("$2a$10$hashedpassword")),
+  });
+
+  const result = await createAccount(validCreateAccountInput, deps);
+
+  assert.equal(result.id, user.id);
+  assert.equal(result.email, user.email);
+  assert.equal(result.name, user.name);
+
+  const createData = createdData as { name: string; email: string; passwordHash: string };
+  assert.equal(createData.name, "Test User");
+  assert.equal(createData.email, "user@example.com");
+  assert.equal(createData.passwordHash, "$2a$10$hashedpassword");
+});
+
+test("createAccount: deve lançar EmailAlreadyRegisteredError quando o e-mail já existe", async () => {
+  const deps = createCreateAccountDeps({
+    findByEmail: mock.fn(() => Promise.resolve(createValidUser())),
+  });
+
+  await assert.rejects(
+    () => createAccount(validCreateAccountInput, deps),
+    (error: unknown) => {
+      assert.equal((error as Error).message, "E-mail já cadastrado");
+      return true;
+    },
+  );
+});
+
+test("createAccount: deve lançar InvalidPasswordError quando a senha não atende aos critérios", async () => {
+  const deps = createCreateAccountDeps();
+
+  await assert.rejects(
+    () => createAccount({ ...validCreateAccountInput, password: "abcdef" }, deps),
+    (error: unknown) => {
+      assert.equal((error as Error).message, "A senha deve atender aos critérios de segurança");
+      return true;
+    },
+  );
+});
+
+test("createAccount: deve lançar CreateAccountServiceError quando o repositório lança erro", async () => {
+  const deps = createCreateAccountDeps({
+    findByEmail: mock.fn(() => Promise.reject(new Error("DB error"))),
+  });
+
+  await assert.rejects(
+    () => createAccount(validCreateAccountInput, deps),
+    (error: unknown) => {
+      assert.equal((error as Error).message, "Serviço de criação de conta indisponível");
       return true;
     },
   );

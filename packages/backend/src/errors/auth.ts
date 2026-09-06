@@ -27,3 +27,33 @@ export class AuthenticationServiceError extends Error {
     this.statusCode = 503;
   }
 }
+
+export class EmailAlreadyRegisteredError extends Error {
+  public statusCode: number;
+
+  constructor() {
+    super("E-mail já cadastrado");
+    this.name = "EmailAlreadyRegisteredError";
+    this.statusCode = 409;
+  }
+}
+
+export class InvalidPasswordError extends Error {
+  public statusCode: number;
+
+  constructor() {
+    super("A senha deve atender aos critérios de segurança");
+    this.name = "InvalidPasswordError";
+    this.statusCode = 400;
+  }
+}
+
+export class CreateAccountServiceError extends Error {
+  public statusCode: number;
+
+  constructor() {
+    super("Serviço de criação de conta indisponível");
+    this.name = "CreateAccountServiceError";
+    this.statusCode = 503;
+  }
+}

@@ -1,6 +1,6 @@
 import type { FastifyInstance } from "fastify";
-import { login } from "../controllers/authController.js";
-import { loginBodyJsonSchema } from "../validators/auth.js";
+import { createAccount, login } from "../controllers/authController.js";
+import { createAccountBodyJsonSchema, loginBodyJsonSchema } from "../validators/auth.js";
 
 export async function authRoutes(fastify: FastifyInstance) {
   fastify.post(
@@ -51,5 +51,56 @@ export async function authRoutes(fastify: FastifyInstance) {
       },
     },
     login,
+  );
+
+  fastify.post(
+    "/auth/register",
+    {
+      schema: {
+        tags: ["auth"],
+        description: "Cria uma conta de usuário para utilizar o sistema.",
+        summary: "Criar conta",
+        body: createAccountBodyJsonSchema,
+        response: {
+          201: {
+            type: "object",
+            properties: {
+              id: { type: "string" },
+              email: { type: "string" },
+              name: { type: "string" },
+            },
+            required: ["id", "email", "name"],
+          },
+          400: {
+            type: "object",
+            properties: {
+              statusCode: { type: "number" },
+              error: { type: "string" },
+              message: { type: "string" },
+            },
+          },
+          409: {
+            type: "object",
+            properties: {
+              statusCode: { type: "number" },
+              error: { type: "string" },
+              message: { type: "string" },
+            },
+          },
+          503: {
+            type: "object",
+            properties: {
+              statusCode: { type: "number" },
+              error: { type: "string" },
+              message: { type: "string" },
+            },
+          },
+        },
+      },
+      config: {
+        isPublic: true,
+      },
+    },
+    createAccount,
   );
 }

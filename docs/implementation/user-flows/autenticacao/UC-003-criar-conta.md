@@ -123,7 +123,7 @@ Não deve ser possível realizar a criação de uma nova conta com um e-mail já
 
 As duas senhas informadas devem ser iguais para que o cadastro seja realizado.
 
-### RN-004 — Senhas coincidindo
+### RN-004 — E-mail válido
 
 O e-mail deve estar em um formato válido para que o cadastro seja realizado.
 
@@ -148,7 +148,7 @@ A senha cadastrada somente é válida quando conter o seguinte:
 1. O sistema identifica um ou mais campos inválidos.
 2. O sistema apresenta o erro junto ao campo correspondente.
 3. O usuário corrige os dados.
-4. O usuário tenta realizar o login novamente.
+4. O usuário tenta realizar o cadastro novamente.
 5. O fluxo retorna ao Step 3.
 
 ---
@@ -285,7 +285,7 @@ Este documento não define:
 - Componentes específicos de uma biblioteca de UI.
 - Tecnologia utilizada na implementação.
 
-# 8. Critérios de aceite
+# 9. Critérios de aceite
 
 ### Cadastro com sucesso
 
@@ -317,14 +317,14 @@ Este documento não define:
 
 ---
 
-# 9. Visibilidade da funcionalidade
+# 10. Visibilidade da funcionalidade
 
 Esta funcionalidade, assim como suas rotas, estarão disponíveis para todas as
 pessoas, ou seja, não é necessário um token válido para acessar a rotina.
 
-# 10. Referências
+# 11. Referências
 
 ### Casos de uso relacionados
 
-* `UC-003 — Login`
+* `UC-001 — Login`
 ---

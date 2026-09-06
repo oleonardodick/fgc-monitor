@@ -99,12 +99,13 @@ packages/shared/src/
   pasta dentro de `features/`, e não solta em `components/`.
 - **Testes** ficam em `tests/unit` e `tests/integration` dentro de cada
   pacote (`packages/frontend`, `packages/backend`, `packages/shared`), espelhando a estrutura
-  do código-fonte testado.
+  do código-fonte testado. Toda nova funcionalidade deve possuir ao menos testes unitários.
 - Ao criar um arquivo, **verifique antes se já existe uma pasta apropriada**
   para ele na estrutura definida aqui. Não crie pastas novas na raiz de `src/`
   sem necessidade — prefira encaixar em uma pasta já existente ou consultar o
   documento correspondente (`frontend.md` / `backend.md` / `shared.md`).
 - Consulte `conventions.md` para nomenclatura de arquivos.
+- **Perguntar** sempre que necessário para obter o melhor resultado.
 
 ## 6. O que este agente NÃO deve fazer
 
@@ -118,3 +119,4 @@ packages/shared/src/
   biblioteca utilizar.
 - Não misturar responsabilidades entre camadas do backend (ex.: lógica de
   negócio dentro de um `controller`, ou query SQL dentro de um `service`).
+- Não tomar decisões importantes no projeto sem questionar o desenvolvedor.

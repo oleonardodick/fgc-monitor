@@ -14,7 +14,7 @@ export function useLogin(): UseLoginReturn {
   const [status, setStatus] = useState<LoginStatus>("idle");
   const [errorMessage, setErrorMessage] = useState<string | null>(null);
 
-  const login = useCallback(async (credentials: LoginDTO) => {
+  const login = useCallback(async (_credentials: LoginDTO) => {
     setStatus("loading");
     setErrorMessage(null);
 

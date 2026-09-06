@@ -2,6 +2,7 @@ import type { ReactNode } from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import { useAuth } from "../hooks/useAuth.js";
 import LoginPage from "../pages/LoginPage.js";
+import RegisterPage from "../pages/RegisterPage.js";
 
 function ProtectedRoute({ children }: { children: ReactNode }) {
   const { isAuthenticated } = useAuth();
@@ -41,6 +42,10 @@ export const router = createBrowserRouter([
   {
     path: "/login",
     element: <LoginPage />,
+  },
+  {
+    path: "/criar-conta",
+    element: <RegisterPage />,
   },
   {
     path: "/dashboard",

@@ -8,3 +8,9 @@ export interface LoginResponse {
   token: string;
   user: UserPublic;
 }
+
+export interface CreateAccountInput {
+  name: string;
+  email: string;
+  password: string;
+}

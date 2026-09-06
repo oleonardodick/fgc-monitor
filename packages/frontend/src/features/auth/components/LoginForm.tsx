@@ -1,5 +1,6 @@
 import type { LoginDTO } from "@fgc-monitor/shared";
 import { type FormEvent, useState } from "react";
+import { Link } from "react-router-dom";
 import { Button } from "../../../components/Button";
 import { FormError } from "../../../components/FormError";
 import { FormField } from "../../../components/FormField";
@@ -89,16 +90,9 @@ export function LoginForm({ onSubmit, isSubmitting, errorMessage }: LoginFormPro
         >
           Esqueci minha senha
         </a>
-        <a
-          href="/criar-conta"
-          className="text-emerald-400 hover:text-emerald-300 transition"
-          onClick={(e) => {
-            e.preventDefault();
-            // TODO: UC-003 — Criar conta
-          }}
-        >
+        <Link to="/criar-conta" className="text-emerald-400 hover:text-emerald-300 transition">
           Criar conta
-        </a>
+        </Link>
       </div>
     </form>
   );

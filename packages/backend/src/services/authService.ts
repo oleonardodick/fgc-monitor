@@ -1,5 +1,17 @@
-import type { LoginDTO, LoginResponse, UserPublic } from "@fgc-monitor/shared";
-import { AuthenticationServiceError, InvalidCredentialsError } from "../errors/auth.js";
+import {
+  type CreateAccountInput,
+  isPasswordValid,
+  type LoginDTO,
+  type LoginResponse,
+  type UserPublic,
+} from "@fgc-monitor/shared";
+import {
+  AuthenticationServiceError,
+  CreateAccountServiceError,
+  EmailAlreadyRegisteredError,
+  InvalidCredentialsError,
+  InvalidPasswordError,
+} from "../errors/auth.js";
 import type { IBcryptPlugin } from "../plugins/bcrypt.js";
 import type { IUserRepository } from "../repositories/userRepository.js";
 
@@ -24,9 +36,9 @@ export async function login(
       throw new InvalidCredentialsError();
     }
 
-    const isPasswordValid = await deps.bcrypt.compare(credentials.password, user.passwordHash);
+    const isValid = await deps.bcrypt.compare(credentials.password, user.passwordHash);
 
-    if (!isPasswordValid) {
+    if (!isValid) {
       throw new InvalidCredentialsError();
     }
 
@@ -47,5 +59,47 @@ export async function login(
       throw error;
     }
     throw new AuthenticationServiceError();
+  }
+}
+
+export interface CreateAccountServiceDependencies {
+  userRepository: IUserRepository;
+  bcrypt: IBcryptPlugin;
+}
+
+export async function createAccount(
+  input: CreateAccountInput,
+  deps: CreateAccountServiceDependencies,
+): Promise<UserPublic> {
+  try {
+    const email = input.email.trim().toLowerCase();
+    const existingUser = await deps.userRepository.findByEmail(email);
+
+    if (existingUser) {
+      throw new EmailAlreadyRegisteredError();
+    }
+
+    if (!isPasswordValid(input.password)) {
+      throw new InvalidPasswordError();
+    }
+
+    const passwordHash = await deps.bcrypt.hash(input.password);
+
+    const user = await deps.userRepository.create({
+      name: input.name.trim(),
+      email,
+      passwordHash,
+    });
+
+    return {
+      id: user.id,
+      email: user.email,
+      name: user.name,
+    };
+  } catch (error) {
+    if (error instanceof EmailAlreadyRegisteredError || error instanceof InvalidPasswordError) {
+      throw error;
+    }
+    throw new CreateAccountServiceError();
   }
 }
