@@ -289,31 +289,32 @@ Este documento não define:
 
 ### Cadastro com sucesso
 
-- [ ] Usuário consegue informar os dados para cadastro.
-- [ ] Sistema valida os dados informados.
-- [ ] Sistema cria um usuário.
-- [ ] Usuário é direcionado para `/login`.
+- [X] Usuário consegue informar os dados para cadastro.
+- [X] Sistema valida os dados informados.
+- [X] Sistema cria um usuário.
+- [X] Usuário é direcionado para `/login`.
 
 ### Validação
 
-- [ ] Nome vazio é rejeitado.
-- [ ] E-mail vazio é rejeitado.
-- [ ] E-mail em formato inválido é rejeitado.
-- [ ] Senha vazia é rejeitada.
-- [ ] Senha fora dos critérios estabelecidos é rejeitada.
-- [ ] Mensagens de validação são apresentadas de forma clara.
+- [X] Nome vazio é rejeitado.
+- [X] E-mail vazio é rejeitado.
+- [X] E-mail em formato inválido é rejeitado.
+- [X] E-mail repetido é validado.
+- [X] Senha vazia é rejeitada.
+- [X] Senha fora dos critérios estabelecidos é rejeitada.
+- [X] Mensagens de validação são apresentadas de forma clara.
 
 ### Dados inválidos
 
-- [ ] Sistema rejeita dados inválidas.
-- [ ] Sistema informa quais dados estão incorretos.
-- [ ] Usuário não é criado.
+- [X] Sistema rejeita dados inválidas.
+- [X] Sistema informa quais dados estão incorretos.
+- [X] Usuário não é criado.
 
 ### Falhas
 
-- [ ] Indisponibilidade do serviço é tratada.
-- [ ] Erros inesperados são tratados.
-- [ ] O usuário pode tentar novamente após uma falha.
+- [X] Indisponibilidade do serviço é tratada.
+- [X] Erros inesperados são tratados.
+- [X] O usuário pode tentar novamente após uma falha.
 
 ---
 

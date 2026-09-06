@@ -23,9 +23,9 @@
 
 | ID     | Use Case        | Ator    | Prioridade | User Flow                                                            | Status    |
 | ------ | --------------- | ------- | ---------- | -------------------------------------------------------------------- | --------- |
-| UC-001 | Login           | Usuário | Alta       | [Login](./user-flows/autenticacao/UC-001-login.md)                     | A definir |
-| UC-002 | Logout          | Usuário | Alta       | ---                                                                  | A definir |
-| UC-003 | Criar conta     | Usuário | Alta       | [Criar conta](./user-flows/autenticacao/UC-003-criar-conta.md)         | A definir |
+| UC-001 | Login           | Usuário | Alta       | [Login](./user-flows/autenticacao/UC-001-login.md)                     | Validado |
+| UC-002 | Logout          | Usuário | Alta       | ---                                                                  | Validado |
+| UC-003 | Criar conta     | Usuário | Alta       | [Criar conta](./user-flows/autenticacao/UC-003-criar-conta.md)         | Validado |
 | UC-004 | Recuperar senha | Usuário | Média      | [Recuperar senha](./user-flows/autenticacao/UC-004-recuperar-senha.md) | A definir |
 
 ### 2.2 Usuários

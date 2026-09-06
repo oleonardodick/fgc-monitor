@@ -3,6 +3,7 @@ import { useNavigate } from "react-router-dom";
 import { Card, CardContent, CardHeader } from "../components/Card.js";
 import { LoginForm } from "../features/auth/components/LoginForm.js";
 import { useAuth } from "../hooks/useAuth.js";
+import { getApiErrorMessage } from "../utils/getApiErrorMessage.js";
 
 export default function LoginPage() {
   const { login } = useAuth();
@@ -19,11 +20,7 @@ export default function LoginPage() {
         await login(credentials);
         navigate("/dashboard");
       } catch (error) {
-        if (error instanceof Error) {
-          setErrorMessage(error.message);
-        } else {
-          setErrorMessage("Erro inesperado. Tente novamente.");
-        }
+        setErrorMessage(getApiErrorMessage(error));
       } finally {
         setIsSubmitting(false);
       }

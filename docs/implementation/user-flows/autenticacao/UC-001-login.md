@@ -315,29 +315,29 @@ Este documento não define:
 
 ### Login com sucesso
 
-- [ ] Usuário consegue informar e-mail e senha.
-- [ ] Sistema autentica credenciais válidas.
-- [ ] Sistema cria uma sessão válida.
-- [ ] Usuário é direcionado para `/dashboard`.
+- [X] Usuário consegue informar e-mail e senha.
+- [X] Sistema autentica credenciais válidas.
+- [X] Sistema cria uma sessão válida.
+- [X] Usuário é direcionado para `/dashboard`.
 
 ### Validação
 
-- [ ] E-mail vazio é rejeitado.
-- [ ] E-mail em formato inválido é rejeitado.
-- [ ] Senha vazia é rejeitada.
-- [ ] Mensagens de validação são apresentadas de forma clara.
+- [X] E-mail vazio é rejeitado.
+- [X] E-mail em formato inválido é rejeitado.
+- [X] Senha vazia é rejeitada.
+- [X] Mensagens de validação são apresentadas de forma clara.
 
 ### Credenciais inválidas
 
-- [ ] Sistema rejeita credenciais inválidas.
-- [ ] Sistema não informa se o e-mail ou senha está incorreto individualmente.
-- [ ] Login inválido não cria sessão.
+- [X] Sistema rejeita credenciais inválidas.
+- [X] Sistema não informa se o e-mail ou senha está incorreto individualmente.
+- [X] Login inválido não cria sessão.
 
 ### Falhas
 
-- [ ] Indisponibilidade do serviço é tratada.
-- [ ] Erros inesperados são tratados.
-- [ ] O usuário pode tentar novamente após uma falha.
+- [X] Indisponibilidade do serviço é tratada.
+- [X] Erros inesperados são tratados.
+- [X] O usuário pode tentar novamente após uma falha.
 
 ---
 
