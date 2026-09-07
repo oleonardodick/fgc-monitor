@@ -39,7 +39,7 @@ describe("LoginPage", () => {
     expect(screen.getByText("Criar conta")).toBeInTheDocument();
   });
 
-    it("mostra as validações quando enviado um formulário em branco", () => {
+  it("mostra as validações quando enviado um formulário em branco", () => {
     renderPage();
 
     fireEvent.click(screen.getByRole("button", { name: /entrar/i }));
@@ -74,9 +74,7 @@ describe("LoginPage", () => {
       config: {} as never,
     };
 
-    const loginSpy = vi
-      .spyOn(authService, "login")
-      .mockRejectedValueOnce(apiError);
+    const loginSpy = vi.spyOn(authService, "login").mockRejectedValueOnce(apiError);
 
     renderPage();
 
@@ -88,9 +86,7 @@ describe("LoginPage", () => {
     });
     fireEvent.click(screen.getByRole("button", { name: /entrar/i }));
 
-    const alert = await waitFor(() =>
-      screen.getByRole("alert"),
-    );
+    const alert = await waitFor(() => screen.getByRole("alert"));
     expect(alert).toHaveTextContent("Credenciais inválidas");
 
     // Lock in the previous fix: the generic Axios message must NOT leak into the UI.

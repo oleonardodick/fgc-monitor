@@ -76,15 +76,19 @@ describe("RegisterPage", () => {
     fireEvent.click(screen.getByRole("button", { name: /criar conta/i }));
 
     expect(screen.getByText("Formato de e-mail inválido")).toBeInTheDocument();
-    expect(screen.getByText("A senha deve ter entre 6 e 8 caracteres e cumprir ao menos 3 critérios de segurança")).toBeInTheDocument();
-  })
+    expect(
+      screen.getByText(
+        "A senha deve ter entre 6 e 8 caracteres e cumprir ao menos 3 critérios de segurança",
+      ),
+    ).toBeInTheDocument();
+  });
 
   it("mostra a validação quando as senhas enviadas não são iguais", () => {
     renderPage();
 
     fireEvent.input(screen.getByLabelText("Senha"), {
       target: { value: "@Senha12" },
-    });    
+    });
 
     fireEvent.input(screen.getByLabelText("Confirmar senha"), {
       target: { value: "@Senha45" },
@@ -93,7 +97,7 @@ describe("RegisterPage", () => {
     fireEvent.click(screen.getByRole("button", { name: /criar conta/i }));
 
     expect(screen.getByText("As senhas não coincidem")).toBeInTheDocument();
-  })
+  });
 
   it("exibe e esconde o dado da senha", () => {
     renderPage();
@@ -123,17 +127,13 @@ describe("RegisterPage", () => {
       config: {} as never,
     };
 
-    const createAccountSpy = vi
-      .spyOn(authService, "createAccount")
-      .mockRejectedValueOnce(apiError);
+    const createAccountSpy = vi.spyOn(authService, "createAccount").mockRejectedValueOnce(apiError);
 
     renderPage();
     fillValidForm();
     fireEvent.click(screen.getByRole("button", { name: /criar conta/i }));
 
-    const alert = await waitFor(() =>
-      screen.getByRole("alert"),
-    );
+    const alert = await waitFor(() => screen.getByRole("alert"));
     expect(alert).toHaveTextContent("E-mail já cadastrado");
 
     // O fallback genérico do Axios nunca deve aparecer para o usuário.
@@ -147,24 +147,24 @@ describe("RegisterPage", () => {
   });
 
   it("retorna uma mensagem genérica quando não existe mensagem retornada pela API", async () => {
-      const apiError = new AxiosError("Request failed with status code 500");
-      apiError.response = {
-        data: {},
-        status: 500,
-        statusText: "Internal Server Error",
-        headers: {},
-        config: {} as never,
-      };
-  
-      vi.spyOn(authService, "createAccount").mockRejectedValueOnce(apiError);
-  
-      renderPage();
-      fillValidForm();
+    const apiError = new AxiosError("Request failed with status code 500");
+    apiError.response = {
+      data: {},
+      status: 500,
+      statusText: "Internal Server Error",
+      headers: {},
+      config: {} as never,
+    };
 
-      fireEvent.click(screen.getByRole("button", { name: /criar conta/i }));
-  
-      await waitFor(() => {
-        expect(screen.getByText("Erro inesperado. Tente novamente.")).toBeInTheDocument();
-      });
+    vi.spyOn(authService, "createAccount").mockRejectedValueOnce(apiError);
+
+    renderPage();
+    fillValidForm();
+
+    fireEvent.click(screen.getByRole("button", { name: /criar conta/i }));
+
+    await waitFor(() => {
+      expect(screen.getByText("Erro inesperado. Tente novamente.")).toBeInTheDocument();
     });
+  });
 });
