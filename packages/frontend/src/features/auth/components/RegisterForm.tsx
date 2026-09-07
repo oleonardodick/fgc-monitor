@@ -142,7 +142,7 @@ export function RegisterForm({ onSubmit, isSubmitting, errorMessage }: RegisterF
       </Button>
 
       <div className="flex items-center justify-center text-sm">
-        <Link to="/login" className="text-slate-400 hover:text-slate-200 transition">
+        <Link to="/login" className="text-link hover:text-link-hover transition">
           Já possuo uma conta
         </Link>
       </div>

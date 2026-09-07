@@ -33,25 +33,23 @@ export default function RegisterPage() {
   );
 
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-slate-950 px-6 text-slate-100">
-      <div className="w-full max-w-sm">
-        <Card>
-          <CardHeader className="text-center">
-            <p className="mb-1 text-sm font-medium uppercase tracking-widest text-emerald-400">
-              FGC Monitor
-            </p>
-            <h1 className="text-2xl font-semibold">Criar conta</h1>
-          </CardHeader>
+    <div className="w-full max-w-sm">
+      <Card>
+        <CardHeader className="text-center">
+          <p className="mb-1 text-sm font-medium uppercase tracking-widest text-brand">
+            FGC Monitor
+          </p>
+          <h1 className="text-2xl font-semibold">Criar conta</h1>
+        </CardHeader>
 
-          <CardContent>
-            <RegisterForm
-              onSubmit={handleSubmit}
-              isSubmitting={isSubmitting}
-              errorMessage={errorMessage}
-            />
-          </CardContent>
-        </Card>
-      </div>
-    </main>
+        <CardContent>
+          <RegisterForm
+            onSubmit={handleSubmit}
+            isSubmitting={isSubmitting}
+            errorMessage={errorMessage}
+          />
+        </CardContent>
+      </Card>
+    </div>
   );
 }

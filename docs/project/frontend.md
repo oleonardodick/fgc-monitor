@@ -53,6 +53,35 @@ packages/frontend/
 - **Segurança**: Nenhum dado sensível deve estar exposto em URL ou header
 das requisições. Todos devem ser tratados de forma segura.
 
+## Design System
+
+Os tokens visuais que devem ser utilizados neste projeto se encontram em:
+
+[globals.css](../../packages/frontend/src/styles/globals.css)
+
+Ao implementar novas telas ou componentes:
+
+1. Utilize os tokens semânticos existentes.
+2. Não invente novas cores ou valores visuais sem necessidade.
+3. Não utilize valores hexadecimais diretamente nos componentes.
+4. Não implemente light mode.
+5. Mantenha o tema exclusivamente dark.
+
+Exemplo:
+
+```tsx
+<Button className="bg-primary text-primary-foreground">
+  Salvar investimento
+</Button>
+```
+
+**Evite** a utilização de cores da seguinte forma:
+```tsx
+<Button className="bg-blue-600 text-white">
+  Salvar investimento
+</Button>
+```
+
 ## O que NÃO colocar aqui
 
 - Nenhuma lógica que dependa do Node.js (fs, path, process.env do servidor).

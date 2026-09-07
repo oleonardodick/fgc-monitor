@@ -10,7 +10,7 @@ const FormError = React.forwardRef<HTMLDivElement, React.HTMLAttributes<HTMLDivE
         ref={ref}
         role="alert"
         className={cn(
-          "rounded-lg bg-red-900/40 border border-red-800 px-4 py-3 text-sm text-red-300",
+          "rounded-lg border border-destructive/50 bg-destructive/15 px-4 py-3 text-sm text-destructive-foreground",
           className,
         )}
         {...props}

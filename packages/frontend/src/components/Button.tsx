@@ -12,8 +12,8 @@ export interface ButtonProps
 }
 
 const VARIANT_CLASSES: Record<ButtonVariant, string> = {
-  primary: "bg-emerald-600 text-white hover:bg-emerald-500 focus:ring-emerald-400",
-  secondary: "bg-slate-800 text-slate-300 hover:bg-slate-700 focus:ring-slate-500",
+  primary: "bg-primary text-primary-foreground hover:bg-primary/90 focus:ring-ring",
+  secondary: "bg-secondary text-secondary-foreground hover:bg-secondary/80 focus:ring-ring",
 };
 
 const Button = React.forwardRef<HTMLButtonElement, ButtonProps>(

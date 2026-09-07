@@ -26,15 +26,13 @@ const FormField = React.forwardRef<HTMLInputElement, FormFieldProps>(
           aria-invalid={hasError || undefined}
           aria-describedby={hasError ? errorId : undefined}
           className={cn(
-            hasError
-              ? "border-red-500 focus:ring-red-500"
-              : "border-slate-700 focus:ring-emerald-500",
+            hasError ? "border-destructive focus:ring-destructive" : "border-input focus:ring-ring",
             className,
           )}
           {...props}
         />
         {hasError && (
-          <p id={errorId} className="mt-1 text-xs text-red-400" role="alert">
+          <p id={errorId} className="mt-1 text-xs text-destructive-foreground" role="alert">
             {error}
           </p>
         )}

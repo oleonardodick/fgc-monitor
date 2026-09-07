@@ -85,7 +85,7 @@ export function LoginForm({ onSubmit, isSubmitting, errorMessage }: LoginFormPro
       <div className="flex items-center justify-between text-sm">
         <a
           href="/recuperar-senha"
-          className="text-slate-400 hover:text-slate-200 transition"
+          className="text-muted-foreground hover:text-muted-foreground/180 transition"
           onClick={(e) => {
             e.preventDefault();
             // TODO: UC-004 — Recuperar senha
@@ -93,7 +93,7 @@ export function LoginForm({ onSubmit, isSubmitting, errorMessage }: LoginFormPro
         >
           Esqueci minha senha
         </a>
-        <Link to="/criar-conta" className="text-emerald-400 hover:text-emerald-300 transition">
+        <Link to="/criar-conta" className="text-link hover:text-link-hover transition">
           Criar conta
         </Link>
       </div>
