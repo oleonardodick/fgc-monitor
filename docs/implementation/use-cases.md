@@ -30,11 +30,9 @@
 
 ### 2.2 Usuários
 
-| ID     | Use Case          | Ator    | Prioridade | User Flow                                                      | Status    |
-| ------ | ----------------- | ------- | ---------- | ---------------------------------------------------------------| --------- |
-| UC-010 | Visualizar perfil | Usuário | Média      | ---                                                            | A definir |
-| UC-011 | Editar perfil     | Usuário | Média      | ---                                                            | A definir |
-| UC-012 | Alterar senha     | Usuário | Média      | [Recuperar senha](./user-flows/usuarios/UC-012-alterar-senha.md) | A definir |
+| ID     | Use Case         | Ator    | Prioridade | User Flow                                                            | Status    |
+| ------ | ---------------- | ------- | ---------- | ---------------------------------------------------------------------| --------- |
+| UC-010 | Gerenciar perfil | Usuário | Média      | [Gerenciar perfil](./user-flows/usuarios/UC-010-gerenciar-perfil.md) | A definir |
 
 ### 2.3 Busca de taxas do Banco Central
 
