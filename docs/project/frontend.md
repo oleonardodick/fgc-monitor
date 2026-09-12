@@ -14,7 +14,7 @@ packages/frontend/
 │   │   └── layout/             # componentes estruturais da aplicação (Header, Sidebar, Footer, PageLayout...)
 │   ├── features/               # um subdiretório por domínio de negócio (ex.: auth/, orders/, users/)
 │   ├── hooks/                  # hooks customizados reutilizáveis (useAuth, useDebounce, usePagination...)
-│   ├── pages/                  # componentes de página, um por rota (ou por grupo de rotas)
+│   ├── pages/                  # componentes de página que não pertencem a uma funcionalidade
 │   ├── routes/                 # configuração de rotas da aplicação (react-router ou similar)
 │   ├── services/               # camada de comunicação HTTP com apps/api (clients, chamadas de API)
 │   ├── store/                  # estado global da aplicação (Zustand, ex.: useUIStore)
@@ -33,6 +33,7 @@ packages/frontend/
   features/auth/
   ├── components/     # componentes usados apenas por essa feature
   ├── hooks/          # hooks usados apenas por essa feature
+  ├── pages/          # páginas relacionadas a essa feature
   ├── services/       # chamadas de API específicas dessa feature
   └── types/          # tipos específicos dessa feature (não compartilhados globalmente)
   ```

@@ -1,12 +1,12 @@
 import type { CreateAccountDTO } from "@fgc-monitor/shared";
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, CardContent, CardHeader } from "../components/Card.js";
-import { RegisterForm } from "../features/auth/components/RegisterForm.js";
-import { createAccount } from "../features/auth/services/authService.js";
-import { getApiErrorMessage } from "../utils/getApiErrorMessage.js";
+import { Card, CardContent, CardHeader } from "../../../components/Card";
+import { getApiErrorMessage } from "../../../utils/getApiErrorMessage";
+import { RegisterForm } from "../components/RegisterForm";
+import { createAccount } from "../services/authService";
 
-export default function RegisterPage() {
+export default function Register() {
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);
   const [errorMessage, setErrorMessage] = useState<string | null>(null);

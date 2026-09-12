@@ -1,4 +1,4 @@
-export default function InvestimentosPage() {
+export default function Investments() {
   return (
     <section className="mx-auto w-full max-w-lg rounded-2xl border border-border bg-card p-8 shadow-xl">
       <p className="mb-2 text-sm font-medium uppercase tracking-widest text-brand">FGC Monitor</p>

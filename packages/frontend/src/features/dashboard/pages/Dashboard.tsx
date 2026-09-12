@@ -1,6 +1,6 @@
-import { useAuth } from "../hooks/useAuth.js";
+import { useAuth } from "../../../hooks/useAuth";
 
-export default function DashboardPage() {
+export default function Dashboard() {
   const { user, logout } = useAuth();
 
   return (

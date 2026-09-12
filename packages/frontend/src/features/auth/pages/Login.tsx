@@ -1,11 +1,11 @@
 import { useCallback, useState } from "react";
 import { useNavigate } from "react-router-dom";
-import { Card, CardContent, CardHeader } from "../components/Card.js";
-import { LoginForm } from "../features/auth/components/LoginForm.js";
-import { useAuth } from "../hooks/useAuth.js";
-import { getApiErrorMessage } from "../utils/getApiErrorMessage.js";
+import { Card, CardContent, CardHeader } from "../../../components/Card.js";
+import { useAuth } from "../../../hooks/useAuth.js";
+import { getApiErrorMessage } from "../../../utils/getApiErrorMessage.js";
+import { LoginForm } from "../components/LoginForm.js";
 
-export default function LoginPage() {
+export default function Login() {
   const { login } = useAuth();
   const navigate = useNavigate();
   const [isSubmitting, setIsSubmitting] = useState(false);

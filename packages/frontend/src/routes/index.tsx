@@ -1,11 +1,11 @@
 import type { ReactNode } from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
 import AppLayout from "../components/layout/AppLayout.js";
+import Login from "../features/auth/pages/Login.js";
+import Register from "../features/auth/pages/Register.js";
+import Dashboard from "../features/dashboard/pages/Dashboard.js";
+import Investments from "../features/investments/pages/Investments.js";
 import { useAuth } from "../hooks/useAuth.js";
-import DashboardPage from "../pages/DashboardPage.js";
-import InvestimentosPage from "../pages/InvestimentosPage.js";
-import LoginPage from "../pages/LoginPage.js";
-import RegisterPage from "../pages/RegisterPage.js";
 import NotFoundPage from "../pages/NotFoundPage.js";
 
 function ProtectedRoute({ children }: { children: ReactNode }) {
@@ -32,7 +32,7 @@ export const router = createBrowserRouter([
     path: "/login",
     element: (
       <CenteredPage>
-        <LoginPage />
+        <Login />
       </CenteredPage>
     ),
   },
@@ -40,7 +40,7 @@ export const router = createBrowserRouter([
     path: "/criar-conta",
     element: (
       <CenteredPage>
-        <RegisterPage />
+        <Register />
       </CenteredPage>
     ),
   },
@@ -57,9 +57,9 @@ export const router = createBrowserRouter([
       </CenteredPage>
     ),
     children: [
-      {index: true, element: <DashboardPage />},
-      { path: "/dashboard", element: <DashboardPage /> },
-      { path: "/investimentos", element: <InvestimentosPage /> },
+      { index: true, element: <Dashboard /> },
+      { path: "/dashboard", element: <Dashboard /> },
+      { path: "/investimentos", element: <Investments /> },
     ],
   },
   {
