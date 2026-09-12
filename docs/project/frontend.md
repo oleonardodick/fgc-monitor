@@ -17,7 +17,7 @@ packages/frontend/
 │   ├── pages/                  # componentes de página, um por rota (ou por grupo de rotas)
 │   ├── routes/                 # configuração de rotas da aplicação (react-router ou similar)
 │   ├── services/               # camada de comunicação HTTP com apps/api (clients, chamadas de API)
-│   ├── store/                  # estado global da aplicação (Redux/Zustand/Context, conforme decidido futuramente)
+│   ├── store/                  # estado global da aplicação (Zustand, ex.: useUIStore)
 │   ├── types/                  # tipos TypeScript exclusivos do frontend (não compartilhados)
 │   └── utils/                  # funções utilitárias específicas do frontend
 └── tests/
@@ -81,6 +81,48 @@ Exemplo:
   Salvar investimento
 </Button>
 ```
+
+## Controle de estados
+
+Esta aplicação utiliza **Zustand** para realizar o controle de estados.
+
+## Layout de aplicação
+
+Os componentes estruturais da aplicação vivem em `src/components/layout/` (ver
+`packages/frontend/src/components/layout/`):
+
+| Componente | Responsabilidade |
+|---|---|
+| `AppLayout.tsx` | Layout principal: `min-h-screen flex flex-col`, header fixo, `main` responsivo (`max-w-7xl mx-auto`) com `<Outlet />` e rodapé ao final. É o **default export** usado pelas páginas protegidas. |
+| `Header.tsx` | Header fixo (`sticky top-0`). Desktop: logo, navegação central com `NavLink` e indicador ativo (sublinhado inferior + cor), ações à direita (notificações, perfil). Celular: logo, avatar e botão hamburger. |
+| `MobileDrawer.tsx` | Drawer lateral animado (celular): overlay + painel deslizante com links de navegação, botão de fechar (X); fecha ao clicar num link, ao clicar fora ou com `Escape`. |
+| `UserProfileMenu.tsx` | Avatar com iniciais + dropdown (nome/e-mail e `Sair`). Abre ao clicar, fecha com clique fora ou `Escape`. Usa `useAuth()`. |
+| `Footer.tsx` | Rodapé ao final do layout com links horizontais (`Legal | Privacy | Terms | Contact`) e copyright. |
+| `BrandLogo.tsx` | Logo `FGCMonitor` com badge/ícone do brand; link a `/dashboard`. |
+| `navigation.ts` | Dados compartilhados: `NAVIGATION_ITEMS` (header/drawer) e `FOOTER_LINKS`. |
+
+Helpers associados:
+
+- `src/store/useUIStore.ts` — store Zustand do estado de UI:
+  - `isMobileMenuOpen: boolean`
+  - `toggleMobileMenu(): void`
+  - `closeMobileMenu(): void`
+  O `Header` e o `MobileDrawer` leem este store; o drawer se fecha sozinho
+  quando um link de navegação é clicado (`closeMobileMenu`).
+- `src/utils/getInitials.ts` — calcula as iniciais do usuário para o avatar.
+
+### Integração com rotas
+
+Em `src/routes/index.tsx`:
+
+- Páginas públicas (`/login`, `/criar-conta`) ficam envoltas em `CenteredPage`,
+  que centraliza o conteúdo (antes este papel era do `<main>` global em `App.tsx`).
+- Páginas protegidas usam uma **rota sem `path`** (layout route) com
+  `ProtectedRoute` + `AppLayout` e filhos com paths absolutos (`/dashboard`,
+  `/investimentos`). `AppLayout` renderiza esses filhos no `<Outlet />`.
+
+Nota: os testes unitários atualmente vivem em `src/test/` (espelhando `src/`),
+como por exemplo `src/test/AppLayout.test.tsx`.
 
 ## O que NÃO colocar aqui
 

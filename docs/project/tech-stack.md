@@ -19,7 +19,14 @@ projeto usa, onde cada uma é usada e por quê.  Ao tentar utilizar um pacote,
 | `react-hook-form` | `7.87.0` | `apps/web/src/hooks/useZodForm.ts`, `apps/web/src/features/**` | Gerenciamento de formulários |
 | `@hookform/resolvers` | `5.9.1` | `apps/web/src/hooks/useZodForm.ts` | Ponte entre `react-hook-form` e os schemas Zod (`zodResolver`) |
 | `axios` | `^1.20.0` | `apps/web/src/services/httpClient.ts`, `apps/web/src/features/**/services` | Cliente HTTP para comunicação com `apps/api` |
-| `react-router-dom` | `7.18.3` | `apps/web/src/routes/` | Roteamento da aplicação (rotas aninhadas, lazy loading de páginas) |
+| `react-router-dom` | `7.18.3` | `packages/frontend/src/routes/`, `packages/frontend/src/components/layout/` | Roteamento da aplicação (layout routes com `Outlet`/`NavLink`, redirects) |
+| `zustand` | `5.0.15` | `packages/frontend/src/store` | Estado global de UI (ex.: estado do menu lateral do celular, `useUIStore`) |
+| `lucide-react` | `1.41.0` | `packages/frontend/src/components/**`, `packages/frontend/src/features/**` | Ícones SVG para a UI (menu, avatar, notificações, chevron, logout...) |
+
+> **Layout de aplicação**: `AppLayout` (`packages/frontend/src/components/layout/`)
+> combina `Header` + `MobileDrawer` + `<Outlet />` + `Footer`. O drawer do
+> celular é controlado pelo store Zustand `useUIStore`, e todo o estilo usa
+> exclusivamente os tokens semânticos de `globals.css` (dark only).
 
 > `useZodForm` é um hook genérico (`useForm` do react-hook-form + `zodResolver`
 > + um schema de `packages/shared/src/schemas`) usado por várias features.
@@ -30,6 +37,7 @@ projeto usa, onde cada uma é usada e por quê.  Ao tentar utilizar um pacote,
 ### Banco de dados / persistência
 
 | Pacote | Versão | Onde é usado | Propósito |
+|---|---|---|---|
 |`mongoose`|`9.9.4`|`packages/backend/src/config`, `packages/backend/src/plugins`|ODM para conectar e modelar dados no MongoDB|
 
 Este projeto utiliza como banco de dados o **MongoDB**, utilizando o **Mongoose**
@@ -40,6 +48,7 @@ plugin do Fastify em `packages/backend/src/plugins`.
 ### Outros pacotes do backend
 
 | Pacote | Versão | Onde é usado | Propósito |
+|---|---|---|---|
 |`@fastify/cors`|`^11.0.1`|`packages/backend/src/plugins`|Habilita CORS no servidor Fastify|
 |`@fastify/swagger`|`9.8.1`|`packages/backend/src/plugins`|Geração dinâmica de spec OpenAPI a partir dos schemas das rotas|
 |`@scalar/fastify-api-reference`|`1.67.0`|`packages/backend/src/plugins`|Interface visual interativa para documentação OpenAPI (rota `/docs`)|

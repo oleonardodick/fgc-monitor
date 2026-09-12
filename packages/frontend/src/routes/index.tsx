@@ -1,8 +1,12 @@
 import type { ReactNode } from "react";
 import { createBrowserRouter, Navigate } from "react-router-dom";
+import AppLayout from "../components/layout/AppLayout.js";
 import { useAuth } from "../hooks/useAuth.js";
+import DashboardPage from "../pages/DashboardPage.js";
+import InvestimentosPage from "../pages/InvestimentosPage.js";
 import LoginPage from "../pages/LoginPage.js";
 import RegisterPage from "../pages/RegisterPage.js";
+import NotFoundPage from "../pages/NotFoundPage.js";
 
 function ProtectedRoute({ children }: { children: ReactNode }) {
   const { isAuthenticated } = useAuth();
@@ -14,26 +18,11 @@ function ProtectedRoute({ children }: { children: ReactNode }) {
   return <>{children}</>;
 }
 
-function DashboardPage() {
-  const { user, logout } = useAuth();
-
+/** Wrapper que centraliza o conteúdo das páginas públicas (login / registro). */
+function CenteredPage({ children }: { children: ReactNode }) {
   return (
-    <main className="flex min-h-screen flex-col items-center justify-center bg-slate-950 px-6 text-slate-100">
-      <div className="w-full max-w-lg rounded-2xl border border-slate-800 bg-slate-900 p-8 shadow-xl">
-        <p className="mb-2 text-sm font-medium uppercase tracking-widest text-emerald-400">
-          FGC Monitor
-        </p>
-        <h1 className="mb-4 text-2xl font-semibold">Dashboard</h1>
-        <p className="mb-2 text-slate-400">Bem-vindo, {user?.name ?? "usuário"}!</p>
-        <p className="mb-6 text-sm text-slate-500">{user?.email}</p>
-        <button
-          onClick={logout}
-          className="rounded-lg bg-slate-800 px-4 py-2 text-sm text-slate-300 transition hover:bg-slate-700"
-          type="submit"
-        >
-          Sair
-        </button>
-      </div>
+    <main className="flex min-h-screen flex-col items-center justify-center bg-background px-6 text-foreground">
+      {children}
     </main>
   );
 }
@@ -41,19 +30,37 @@ function DashboardPage() {
 export const router = createBrowserRouter([
   {
     path: "/login",
-    element: <LoginPage />,
+    element: (
+      <CenteredPage>
+        <LoginPage />
+      </CenteredPage>
+    ),
   },
   {
     path: "/criar-conta",
-    element: <RegisterPage />,
+    element: (
+      <CenteredPage>
+        <RegisterPage />
+      </CenteredPage>
+    ),
   },
   {
-    path: "/dashboard",
+    // Rota sem path: funciona como layout para as páginas protegidas.
     element: (
       <ProtectedRoute>
-        <DashboardPage />
+        <AppLayout />
       </ProtectedRoute>
     ),
+    errorElement: (
+      <CenteredPage>
+        <NotFoundPage />
+      </CenteredPage>
+    ),
+    children: [
+      {index: true, element: <DashboardPage />},
+      { path: "/dashboard", element: <DashboardPage /> },
+      { path: "/investimentos", element: <InvestimentosPage /> },
+    ],
   },
   {
     path: "/",
