@@ -86,6 +86,45 @@ Exemplo:
 
 Esta aplicação utiliza **Zustand** para realizar o controle de estados.
 
+## Formulários — `useZodForm`
+
+Todos os formulários usam `src/hooks/useZodForm.ts`, um wrapper genérico do
+`useForm` (`react-hook-form`) + `zodResolver` (`@hookform/resolvers`) + um
+schema de `packages/shared/src/schemas/`.
+
+- **Localização**: `src/hooks/` — o hook é genérico e usado por várias
+  features, por isso não fica dentro de `features/<feature>/`.
+- **Schemas**: toda regra de validação vem de `packages/shared/src/schemas/`
+  (os mesmos schemas validados pela API). Nunca duplique validação dentro do
+  componente e nunca crie schemas Zod em `features/` ou `pages/`.
+- **Comportamento**: valida no submit (`mode: "onSubmit"`) e revalida a cada
+  mudança após o primeiro submit (`reValidateMode: "onChange"`), limpando o
+  erro do campo enquanto o usuário digita.
+- **Tipos**: `register("campo")` registra campos tipados com `z.input<Schema>`
+  e `handleSubmit(onSubmit)` entrega ao callback o valor já transformado
+  (`z.output<Schema>` — ex.: strings com `.trim()` aplicado).
+
+Uso em um componente de feature (que continua recebendo `onSubmit`,
+`isSubmitting` e `errorMessage` da página):
+
+```tsx
+const {
+  register,
+  handleSubmit,
+  formState: { errors },
+} = useZodForm(loginSchema);
+
+<form onSubmit={handleSubmit(onSubmit)} noValidate>
+  <FormField
+    label="E-mail"
+    type="email"
+    error={errors.email?.message}
+    {...register("email")}
+  />
+  <Button type="submit">Entrar</Button>
+</form>
+```
+
 ## Layout de aplicação
 
 Os componentes estruturais da aplicação vivem em `src/components/layout/` (ver

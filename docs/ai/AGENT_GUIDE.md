@@ -37,8 +37,8 @@ nos dois lados, ela deve viver em `packages/shared` e ser importada por ambos.
 ## 3. Mapa de diretórios (resumo)
 
 Veja o detalhamento completo em:
-- [`frontend.md`](../project/frontend.md) para `apps/web`
-- [`backend.md`](../project/backend.md) para `apps/api`
+- [`frontend.md`](../project/frontend.md) para `packages/frontend`
+- [`backend.md`](../project/backend.md) para `packages/backend`
 - [`shared.md`](../project/shared.md) para `packages/shared`
 - [`architecture.md`](../project/architecture.md) para a visão geral e fluxo de dados
 - [`tech-stack.md`](../project/tech-stack.md) para **banco de dados e pacotes usados** (ex.: Mongoose, Zod) — o que já está instalado e onde cada um é usado

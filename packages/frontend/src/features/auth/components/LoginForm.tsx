@@ -1,11 +1,11 @@
-import type { LoginDTO } from "@fgc-monitor/shared";
+import { type LoginDTO, loginSchema } from "@fgc-monitor/shared";
 import { Mail } from "lucide-react";
-import { type FormEvent, useState } from "react";
 import { Link } from "react-router-dom";
 import { Button } from "../../../components/Button";
 import { FormError } from "../../../components/FormError";
 import { FormField } from "../../../components/FormField";
 import { PasswordInput } from "../../../components/PasswordInput";
+import { useZodForm } from "../../../hooks/useZodForm";
 
 interface LoginFormProps {
   onSubmit: (credentials: LoginDTO) => Promise<void>;
@@ -14,66 +14,31 @@ interface LoginFormProps {
 }
 
 export function LoginForm({ onSubmit, isSubmitting, errorMessage }: LoginFormProps) {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [fieldErrors, setFieldErrors] = useState<Record<string, string>>({});
-
-  function validate(): LoginDTO | null {
-    const errors: Record<string, string> = {};
-
-    if (!email.trim()) {
-      errors.email = "E-mail é obrigatório";
-    } else if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) {
-      errors.email = "Formato de e-mail inválido";
-    }
-
-    if (!password) {
-      errors.password = "Senha é obrigatória";
-    }
-
-    setFieldErrors(errors);
-    return Object.keys(errors).length === 0 ? { email: email.trim(), password } : null;
-  }
-
-  async function handleSubmit(e: FormEvent) {
-    e.preventDefault();
-    const credentials = validate();
-    if (credentials) {
-      await onSubmit(credentials);
-    }
-  }
-
-  function clearFieldError(field: string) {
-    setFieldErrors((prev) => ({ ...prev, [field]: "" }));
-  }
+  const {
+    register,
+    handleSubmit,
+    formState: { errors },
+  } = useZodForm(loginSchema);
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-5" noValidate>
+    <form onSubmit={handleSubmit(onSubmit)} className="space-y-5" noValidate>
       <FormField
         label="E-mail"
         type="email"
         autoComplete="email"
         placeholder="seu@email.com"
-        value={email}
-        onChange={(e) => {
-          setEmail(e.target.value);
-          clearFieldError("email");
-        }}
-        error={fieldErrors.email}
+        error={errors.email?.message}
         icon={Mail}
         iconPosition="right"
+        {...register("email")}
       />
 
       <PasswordInput
         label="Senha"
         autoComplete="current-password"
         placeholder="Sua senha"
-        value={password}
-        onChange={(e) => {
-          setPassword(e.target.value);
-          clearFieldError("password");
-        }}
-        error={fieldErrors.password}
+        error={errors.password?.message}
+        {...register("password")}
       />
 
       {errorMessage && <FormError>{errorMessage}</FormError>}

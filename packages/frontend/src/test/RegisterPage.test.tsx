@@ -52,18 +52,18 @@ describe("RegisterPage", () => {
     expect(screen.getByText("Já possuo uma conta")).toBeInTheDocument();
   });
 
-  it("mostra as validações quando enviado um formulário em branco", () => {
+  it("mostra as validações quando enviado um formulário em branco", async () => {
     renderPage();
 
     fireEvent.click(screen.getByRole("button", { name: /criar conta/i }));
 
-    expect(screen.getByText("Nome é obrigatorio")).toBeInTheDocument();
-    expect(screen.getByText("E-mail é obrigatorio")).toBeInTheDocument();
-    expect(screen.getByText("Senha é obrigatoria")).toBeInTheDocument();
-    expect(screen.getByText("Confirmar senha é obrigatoria")).toBeInTheDocument();
+    expect(await screen.findByText("Nome é obrigatório")).toBeInTheDocument();
+    expect(await screen.findByText("E-mail é obrigatório")).toBeInTheDocument();
+    expect(await screen.findByText("Senha é obrigatória")).toBeInTheDocument();
+    expect(await screen.findByText("Confirmar senha é obrigatória")).toBeInTheDocument();
   });
 
-  it("mostra as validações quando enviado dados errados no formulário", () => {
+  it("mostra as validações quando enviado dados errados no formulário", async () => {
     renderPage();
 
     fireEvent.input(screen.getByLabelText("E-mail"), {
@@ -75,15 +75,15 @@ describe("RegisterPage", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /criar conta/i }));
 
-    expect(screen.getByText("Formato de e-mail inválido")).toBeInTheDocument();
+    expect(await screen.findByText("Formato de e-mail inválido")).toBeInTheDocument();
     expect(
-      screen.getByText(
+      await screen.findByText(
         "A senha deve ter entre 6 e 8 caracteres e cumprir ao menos 3 critérios de segurança",
       ),
     ).toBeInTheDocument();
   });
 
-  it("mostra a validação quando as senhas enviadas não são iguais", () => {
+  it("mostra a validação quando as senhas enviadas não são iguais", async () => {
     renderPage();
 
     fireEvent.input(screen.getByLabelText("Senha"), {
@@ -96,7 +96,7 @@ describe("RegisterPage", () => {
 
     fireEvent.click(screen.getByRole("button", { name: /criar conta/i }));
 
-    expect(screen.getByText("As senhas não coincidem")).toBeInTheDocument();
+    expect(await screen.findByText("As senhas não coincidem")).toBeInTheDocument();
   });
 
   it("exibe e esconde o dado da senha", () => {

@@ -39,13 +39,13 @@ describe("LoginPage", () => {
     expect(screen.getByText("Criar conta")).toBeInTheDocument();
   });
 
-  it("mostra as validações quando enviado um formulário em branco", () => {
+  it("mostra as validações quando enviado um formulário em branco", async () => {
     renderPage();
 
     fireEvent.click(screen.getByRole("button", { name: /entrar/i }));
 
-    expect(screen.getByText("E-mail é obrigatório")).toBeInTheDocument();
-    expect(screen.getByText("Senha é obrigatória")).toBeInTheDocument();
+    expect(await screen.findByText("E-mail é obrigatório")).toBeInTheDocument();
+    expect(await screen.findByText("Senha é obrigatória")).toBeInTheDocument();
   });
 
   it("exibe e esconde o dado da senha", () => {

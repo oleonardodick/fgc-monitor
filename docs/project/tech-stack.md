@@ -16,9 +16,9 @@ projeto usa, onde cada uma é usada e por quê.  Ao tentar utilizar um pacote,
 | Pacote | Versão | Onde é usado | Propósito |
 |---|---|---|---|
 | `zod` | `4.5.4` | (dependência direta — ver nota abaixo) | Necessário para inferência de tipos dos schemas importados de `shared` (`z.infer`) |
-| `react-hook-form` | `7.87.0` | `apps/web/src/hooks/useZodForm.ts`, `apps/web/src/features/**` | Gerenciamento de formulários |
-| `@hookform/resolvers` | `5.9.1` | `apps/web/src/hooks/useZodForm.ts` | Ponte entre `react-hook-form` e os schemas Zod (`zodResolver`) |
-| `axios` | `^1.20.0` | `apps/web/src/services/httpClient.ts`, `apps/web/src/features/**/services` | Cliente HTTP para comunicação com `apps/api` |
+| `react-hook-form` | `7.87.0` | `packages/frontend/src/hooks/useZodForm.ts`, `packages/frontend/src/features/**` | Gerenciamento de formulários |
+| `@hookform/resolvers` | `5.9.1` | `packages/frontend/src/hooks/useZodForm.ts` | Ponte entre `react-hook-form` e os schemas Zod (`zodResolver`) |
+| `axios` | `^1.20.0` | `packages/frontend/src/features/**/services` | Cliente HTTP para comunicação com `apps/api` |
 | `react-router-dom` | `7.18.3` | `packages/frontend/src/routes/`, `packages/frontend/src/components/layout/` | Roteamento da aplicação (layout routes com `Outlet`/`NavLink`, redirects) |
 | `zustand` | `5.0.15` | `packages/frontend/src/store` | Estado global de UI (ex.: estado do menu lateral do celular, `useUIStore`) |
 | `lucide-react` | `1.41.0` | `packages/frontend/src/components/**`, `packages/frontend/src/features/**` | Ícones SVG para a UI (menu, avatar, notificações, chevron, logout...) |
@@ -30,7 +30,8 @@ projeto usa, onde cada uma é usada e por quê.  Ao tentar utilizar um pacote,
 
 > `useZodForm` é um hook genérico (`useForm` do react-hook-form + `zodResolver`
 > + um schema de `packages/shared/src/schemas`) usado por várias features.
-> Por isso fica em `src/hooks/`, e não dentro de uma `feature/` específica.
+> Por isso fica em `packages/frontend/src/hooks/`, e não dentro de uma
+> `feature/` específica.
 
 ## `packages/backend` — Backend
 

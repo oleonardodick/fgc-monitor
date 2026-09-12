@@ -34,8 +34,23 @@ export function isPasswordValid(password: string): boolean {
   );
 }
 
+const PASSWORD_CRITERIA_MESSAGE = `A senha deve ter entre ${PASSWORD_MIN_LENGTH} e ${PASSWORD_MAX_LENGTH} caracteres e cumprir ao menos ${MIN_PASSWORD_CRITERIA} critérios de segurança`;
+
+/**
+ * E-mail comum a login/registro: primeiro exige valor (mensagem de campo
+ * obrigatório) e depois valida o formato. A ordem via `pipe` garante a
+ * prioridade das mensagens: vazio -> "E-mail é obrigatório",
+ * inválido -> "Formato de e-mail inválido". O `.trim()` remove espaços
+ * no valor enviado (ex.: o formulario envia o e-mail sem espaços).
+ */
+const emailSchema = z
+  .string()
+  .trim()
+  .min(1, "E-mail é obrigatório")
+  .pipe(z.email("Formato de e-mail inválido"));
+
 export const loginSchema = z.object({
-  email: z.email("Formato de e-mail inválido").describe("E-mail do usuário"),
+  email: emailSchema.describe("E-mail do usuário"),
   password: z.string().min(1, "Senha é obrigatória").describe("Senha do usuário"),
 });
 
@@ -44,17 +59,25 @@ export type LoginDTO = z.infer<typeof loginSchema>;
 export const createAccountSchema = z
   .object({
     name: z.string().trim().min(1, "Nome é obrigatório").describe("Nome do usuário"),
-    email: z.email("Formato de e-mail inválido").describe("E-mail do usuário"),
+    email: emailSchema.describe("E-mail do usuário"),
     password: z
       .string()
-      .min(1, "Senha é obrigatoria")
-      .refine(isPasswordValid, "A senha deve atender aos critérios de segurança")
+      .min(1, "Senha é obrigatória")
+      .refine(isPasswordValid, PASSWORD_CRITERIA_MESSAGE)
       .describe("Senha do usuário"),
     confirmPassword: z
       .string()
-      .min(1, "Confirmar senha é obrigatoria")
+      .min(1, "Confirmar senha é obrigatória")
       .describe("Confirmação da senha"),
   })
-  .refine((data) => data.password === data.confirmPassword, "As senhas não coincidem");
+  .superRefine((data, ctx) => {
+    if (data.password !== data.confirmPassword) {
+      ctx.addIssue({
+        code: "custom",
+        path: ["confirmPassword"],
+        message: "As senhas não coincidem",
+      });
+    }
+  });
 
 export type CreateAccountDTO = z.infer<typeof createAccountSchema>;
