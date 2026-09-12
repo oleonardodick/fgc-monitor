@@ -47,6 +47,11 @@ packages/frontend/
 - **`services/`** (raiz de `src/`) é para clients HTTP genéricos (ex.:
   configuração do axios/fetch, interceptors). Chamadas específicas de uma
   feature (ex.: `getOrders()`) devem ficar em `features/<feature>/services/`.
+  O `src/services/httpClient.ts` é o wrapper genérico de axios usado por todas
+  as features: centraliza `baseURL` (`VITE_API_URL`), headers JSON e
+  interceptors — injeta `Authorization: Bearer <token>` quando existe token em
+  `localStorage`, e dispara o evento `AUTH_UNAUTHORIZED_EVENT` quando a API
+  responde `401` (o `AuthProvider` o escuta para encerrar a sessão).
 
 - Tipos que também são usados pelo backend **não** devem ir em
   `src/types/` — devem vir de `packages/shared`.

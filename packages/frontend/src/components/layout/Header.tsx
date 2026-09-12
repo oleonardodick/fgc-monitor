@@ -38,7 +38,6 @@ export function Header() {
         </nav>
 
         <div className="ml-auto flex items-center gap-3">
-
           {/* Versão desktop do header */}
           <div className="hidden items-center gap-2 md:flex">
             <button

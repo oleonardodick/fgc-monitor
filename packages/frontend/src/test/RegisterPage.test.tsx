@@ -2,14 +2,14 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { AxiosError } from "axios";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
+import Register from "../features/auth/pages/Register";
 import * as authService from "../features/auth/services/authService";
-import RegisterPage from "../pages/RegisterPage";
 
-describe("RegisterPage", () => {
+describe("REgister", () => {
   function renderPage() {
     render(
       <MemoryRouter initialEntries={["/criar-conta"]}>
-        <RegisterPage />
+        <Register />
       </MemoryRouter>,
     );
   }

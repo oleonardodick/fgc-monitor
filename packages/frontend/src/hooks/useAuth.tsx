@@ -1,6 +1,7 @@
 import type { LoginDTO, UserPublic } from "@fgc-monitor/shared";
-import { createContext, type ReactNode, useCallback, useContext, useState } from "react";
+import { createContext, type ReactNode, useCallback, useContext, useEffect, useState } from "react";
 import * as authService from "../features/auth/services/authService.js";
+import { AUTH_TOKEN_STORAGE_KEY, AUTH_UNAUTHORIZED_EVENT } from "../services/httpClient.js";
 
 interface AuthState {
   token: string | null;
@@ -17,7 +18,7 @@ const AuthContext = createContext<AuthContextValue | null>(null);
 
 function loadAuthState(): AuthState {
   try {
-    const token = localStorage.getItem("auth_token");
+    const token = localStorage.getItem(AUTH_TOKEN_STORAGE_KEY);
     const userRaw = localStorage.getItem("auth_user");
     if (token && userRaw) {
       return { token, user: JSON.parse(userRaw) as UserPublic, isAuthenticated: true };
@@ -29,12 +30,12 @@ function loadAuthState(): AuthState {
 }
 
 function persistAuth(token: string, user: UserPublic) {
-  localStorage.setItem("auth_token", token);
+  localStorage.setItem(AUTH_TOKEN_STORAGE_KEY, token);
   localStorage.setItem("auth_user", JSON.stringify(user));
 }
 
 function clearAuth() {
-  localStorage.removeItem("auth_token");
+  localStorage.removeItem(AUTH_TOKEN_STORAGE_KEY);
   localStorage.removeItem("auth_user");
 }
 
@@ -51,6 +52,15 @@ export function AuthProvider({ children }: { children: ReactNode }) {
     clearAuth();
     setState({ token: null, user: null, isAuthenticated: false });
   }, []);
+
+  // Token inválido/expirado detectado pelo httpClient (401) → encerrar sessão.
+  useEffect(() => {
+    const handleUnauthorized = () => logout();
+    window.addEventListener(AUTH_UNAUTHORIZED_EVENT, handleUnauthorized);
+    return () => {
+      window.removeEventListener(AUTH_UNAUTHORIZED_EVENT, handleUnauthorized);
+    };
+  }, [logout]);
 
   return (
     <AuthContext.Provider value={{ ...state, login, logout }}>{children}</AuthContext.Provider>

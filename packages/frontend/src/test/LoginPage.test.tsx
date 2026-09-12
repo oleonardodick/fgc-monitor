@@ -2,16 +2,16 @@ import { fireEvent, render, screen, waitFor } from "@testing-library/react";
 import { AxiosError } from "axios";
 import { MemoryRouter } from "react-router-dom";
 import { describe, expect, it, vi } from "vitest";
+import Login from "../features/auth/pages/Login";
 import * as authService from "../features/auth/services/authService";
 import { AuthProvider } from "../hooks/useAuth";
-import LoginPage from "../pages/LoginPage";
 
-describe("LoginPage", () => {
+describe("Login", () => {
   function renderPage() {
     render(
       <AuthProvider>
         <MemoryRouter initialEntries={["/Login"]}>
-          <LoginPage />
+          <Login />
         </MemoryRouter>
       </AuthProvider>,
     );

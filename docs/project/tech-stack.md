@@ -18,7 +18,7 @@ projeto usa, onde cada uma é usada e por quê.  Ao tentar utilizar um pacote,
 | `zod` | `4.5.4` | (dependência direta — ver nota abaixo) | Necessário para inferência de tipos dos schemas importados de `shared` (`z.infer`) |
 | `react-hook-form` | `7.87.0` | `packages/frontend/src/hooks/useZodForm.ts`, `packages/frontend/src/features/**` | Gerenciamento de formulários |
 | `@hookform/resolvers` | `5.9.1` | `packages/frontend/src/hooks/useZodForm.ts` | Ponte entre `react-hook-form` e os schemas Zod (`zodResolver`) |
-| `axios` | `^1.20.0` | `packages/frontend/src/features/**/services` | Cliente HTTP para comunicação com `apps/api` |
+| `axios` | `^1.20.0` | `packages/frontend/src/services` (wrapper e interceptors), `packages/frontend/src/features/**/services` | Cliente HTTP para comunicação com `packages/backend` |
 | `react-router-dom` | `7.18.3` | `packages/frontend/src/routes/`, `packages/frontend/src/components/layout/` | Roteamento da aplicação (layout routes com `Outlet`/`NavLink`, redirects) |
 | `zustand` | `5.0.15` | `packages/frontend/src/store` | Estado global de UI (ex.: estado do menu lateral do celular, `useUIStore`) |
 | `lucide-react` | `1.41.0` | `packages/frontend/src/components/**`, `packages/frontend/src/features/**` | Ícones SVG para a UI (menu, avatar, notificações, chevron, logout...) |
