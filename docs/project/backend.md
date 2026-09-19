@@ -9,6 +9,7 @@ packages/backend/
 ├── src/
 │   ├── config/                # carregamento e validação de variáveis de ambiente, configuração de servidor/banco
 │   ├── plugins/               # plugins do Fastify (cors, helmet, swagger, autenticação, conexão com banco...)
+│   ├── storage/               # sistema de storage plugável (Strategy/Adapter): interface, adapters, factory
 │   ├── modules/               # organização opcional por domínio completo (rota+controller+service+repo), usar quando fizer sentido — ver architecture.md
 │   ├── routes/                # definição e registro dos endpoints HTTP
 │   ├── controllers/           # recebem request/reply do Fastify, chamam services, formatam a resposta

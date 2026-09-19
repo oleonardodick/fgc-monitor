@@ -56,6 +56,9 @@ plugin do Fastify em `packages/backend/src/plugins`.
 |`fastify-plugin`|`6.0.0`|`packages/backend/src/plugins`|Necessário para disponibilizar plugins customizados para a aplicação.|
 |`@fastify/jwt`|`^10.2.2`|`packages/backend/src/plugins`|Geração e validação de tokens JWT para autenticação|
 |`bcryptjs`|`^3.0.3`|`packages/backend/src/plugins`|Hashing de senhas (bcrypt puro JS, sem compilação nativa)|
+|`@aws-sdk/client-s3`|`^3.1131.0`|`packages/backend/src/storage/providers`|SDK AWS v3 — client S3-compatível do provider de storage MinIO (upload/delete)|
+|`@aws-sdk/s3-request-presigner`|`^3.1131.0`|`packages/backend/src/storage/providers`|Geração de URLs assinadas (download temporário) do provider S3/MinIO|
+|`@fastify/multipart`|`^10.1.1`|`packages/backend/src/storage` (será usado na futura camada de controller) |Recebimento de uploads multipart (registro será feito quando as rotas de arquivo forem criadas)|
 | `zod` | `4.5.4` | (dependência direta — ver nota abaixo) | Necessário para inferência de tipos dos schemas importados de `shared`, usados em `validators/` |
 
 ## `packages/shared`

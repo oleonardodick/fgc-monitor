@@ -7,6 +7,7 @@ import bcryptPlugin from "./plugins/bcrypt.js";
 import jwtPlugin from "./plugins/jwt.js";
 import mongoosePlugin from "./plugins/mongoose.js";
 import scalarPlugin from "./plugins/scalar.js";
+import storagePlugin from "./plugins/storage.js";
 import swaggerPlugin from "./plugins/swagger.js";
 import { authRoutes } from "./routes/auth.js";
 
@@ -17,10 +18,16 @@ export interface BuildServerOptions {
    * @default true
    */
   registerMongoose?: boolean;
+  /**
+   * Whether to register the storage plugin (loads the active storage provider).
+   * Set to false for tests that don't need storage environment variables.
+   * @default true
+   */
+  registerStorage?: boolean;
 }
 
 export async function buildServer(options?: BuildServerOptions) {
-  const { registerMongoose = true } = options ?? {};
+  const { registerMongoose = true, registerStorage = true } = options ?? {};
   const config = loadEnvConfig();
 
   const app = Fastify({ logger: false });
@@ -36,6 +43,10 @@ export async function buildServer(options?: BuildServerOptions) {
 
   if (registerMongoose) {
     await app.register(mongoosePlugin);
+  }
+
+  if (registerStorage) {
+    await app.register(storagePlugin);
   }
 
   // Global preValidation hook — protege todas as rotas, exceto as públicas
