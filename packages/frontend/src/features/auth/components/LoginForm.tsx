@@ -43,7 +43,13 @@ export function LoginForm({ onSubmit, isSubmitting, errorMessage }: LoginFormPro
 
       {errorMessage && <FormError>{errorMessage}</FormError>}
 
-      <Button type="submit" variant="primary" isLoading={isSubmitting} loadingText="Entrando...">
+      <Button
+        type="submit"
+        variant="primary"
+        isLoading={isSubmitting}
+        loadingText="Entrando..."
+        className="w-full"
+      >
         Entrar
       </Button>
 

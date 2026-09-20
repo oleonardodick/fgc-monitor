@@ -49,6 +49,8 @@ const emailSchema = z
   .min(1, "E-mail é obrigatório")
   .pipe(z.email("Formato de e-mail inválido"));
 
+export { emailSchema };
+
 export const loginSchema = z.object({
   email: emailSchema.describe("E-mail do usuário"),
   password: z.string().min(1, "Senha é obrigatória").describe("Senha do usuário"),

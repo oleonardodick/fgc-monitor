@@ -28,6 +28,13 @@ export interface StorageUploadResult {
   url?: string;
 }
 
+export interface StorageDownload {
+  /** Stream de leitura do objeto armazenado. */
+  body: Readable;
+  /** Tipo MIME do objeto, quando conhecido. */
+  contentType?: string;
+}
+
 /** Configuração do provider S3-compatível (MinIO / AWS S3). */
 export interface S3StorageConfig {
   /** URL do endpoint S3-compatível (ex.: "http://localhost:9000"). */
@@ -67,6 +74,9 @@ export interface IStorageProvider {
 
   /** Gera uma URL assinada (temporária) para download de um objeto. */
   getSignedUrl(key: string, expiresInSeconds?: number): Promise<string>;
+
+  /** Abre um stream de leitura do objeto armazenado (ex.: para proxy de download). */
+  download(key: string): Promise<StorageDownload>;
 
   /** Garante que o destino (ex.: bucket) existe. Opcional — nem todo provider precisa. */
   ensureBucket?(): Promise<void>;

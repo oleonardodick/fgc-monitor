@@ -58,7 +58,7 @@ plugin do Fastify em `packages/backend/src/plugins`.
 |`bcryptjs`|`^3.0.3`|`packages/backend/src/plugins`|Hashing de senhas (bcrypt puro JS, sem compilação nativa)|
 |`@aws-sdk/client-s3`|`^3.1131.0`|`packages/backend/src/storage/providers`|SDK AWS v3 — client S3-compatível do provider de storage MinIO (upload/delete)|
 |`@aws-sdk/s3-request-presigner`|`^3.1131.0`|`packages/backend/src/storage/providers`|Geração de URLs assinadas (download temporário) do provider S3/MinIO|
-|`@fastify/multipart`|`^10.1.1`|`packages/backend/src/storage` (será usado na futura camada de controller) |Recebimento de uploads multipart (registro será feito quando as rotas de arquivo forem criadas)|
+|`@fastify/multipart`|`^10.1.1`|`packages/backend/src/server` (registro do plugin) e `packages/backend/src/controllers/profileController`|Recebimento de uploads `multipart/form-data` (foto de perfil do UC-010 — limites de tamanho/nº de arquivos com resposta 413)|
 | `zod` | `4.5.4` | (dependência direta — ver nota abaixo) | Necessário para inferência de tipos dos schemas importados de `shared`, usados em `validators/` |
 
 ## `packages/shared`

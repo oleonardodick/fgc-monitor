@@ -1,4 +1,5 @@
 import { fireEvent, render, screen } from "@testing-library/react";
+import { MemoryRouter } from "react-router-dom";
 import { beforeEach, describe, expect, it } from "vitest";
 import { UserProfileMenu } from "../components/layout/UserProfileMenu";
 import { AuthProvider } from "../hooks/useAuth";
@@ -12,7 +13,9 @@ function renderProfileMenu() {
 
   render(
     <AuthProvider>
-      <UserProfileMenu />
+      <MemoryRouter>
+        <UserProfileMenu />
+      </MemoryRouter>
     </AuthProvider>,
   );
 }
@@ -35,6 +38,7 @@ describe("UserProfileMenu", () => {
 
     expect(screen.getByText("Ana Silva")).toBeInTheDocument();
     expect(screen.getByText("ana@example.com")).toBeInTheDocument();
+    expect(screen.getByRole("link", { name: "Perfil" })).toBeInTheDocument();
   });
 
   it("faz logout ao clicar em Sair", () => {

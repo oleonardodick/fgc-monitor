@@ -5,6 +5,8 @@ import Login from "../features/auth/pages/Login.js";
 import Register from "../features/auth/pages/Register.js";
 import Dashboard from "../features/dashboard/pages/Dashboard.js";
 import Investments from "../features/investments/pages/Investments.js";
+import EditProfile from "../features/profile/pages/EditProfile.js";
+import Profile from "../features/profile/pages/Profile.js";
 import { useAuth } from "../hooks/useAuth.js";
 import NotFoundPage from "../pages/NotFoundPage.js";
 
@@ -60,6 +62,8 @@ export const router = createBrowserRouter([
       { index: true, element: <Dashboard /> },
       { path: "/dashboard", element: <Dashboard /> },
       { path: "/investimentos", element: <Investments /> },
+      { path: "/perfil", element: <Profile /> },
+      { path: "/perfil/editar", element: <EditProfile /> },
     ],
   },
   {

@@ -1,3 +1,4 @@
+import type { Readable } from "node:stream";
 import {
   CreateBucketCommand,
   DeleteObjectCommand,
@@ -10,6 +11,7 @@ import { getSignedUrl } from "@aws-sdk/s3-request-presigner";
 import type {
   IStorageProvider,
   S3StorageConfig,
+  StorageDownload,
   StorageDriver,
   StorageFile,
   StorageUploadResult,
@@ -71,6 +73,20 @@ export class S3StorageProvider implements IStorageProvider {
       }),
       { expiresIn: expiresInSeconds },
     );
+  }
+
+  async download(key: string): Promise<StorageDownload> {
+    const response = await this.client.send(
+      new GetObjectCommand({
+        Bucket: this.config.bucket,
+        Key: key,
+      }),
+    );
+
+    return {
+      body: response.Body as Readable,
+      contentType: response.ContentType,
+    };
   }
 
   async ensureBucket(): Promise<void> {

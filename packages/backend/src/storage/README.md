@@ -39,6 +39,7 @@ Usa `@aws-sdk/client-s3` + `@aws-sdk/s3-request-presigner`.
 - **Upload**: `PutObjectCommand`
 - **Delete**: `DeleteObjectCommand`
 - **URL assinada (download temporário)**: `getSignedUrl` + `GetObjectCommand`
+- **Leitura (proxy/download)**: `download` + `GetObjectCommand` (retorna stream + content type)
 - **Bucket**: criado automaticamente no startup (best-effort) via
   `ensureBucket()` — MinIO não cria buckets por padrão.
 

@@ -67,6 +67,7 @@ export function RegisterForm({ onSubmit, isSubmitting, errorMessage }: RegisterF
         variant="primary"
         isLoading={isSubmitting}
         loadingText="Criando conta..."
+        className="w-full"
       >
         Criar Conta
       </Button>

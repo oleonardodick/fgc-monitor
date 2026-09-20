@@ -6,6 +6,7 @@ export interface IUser {
   name: string;
   active: boolean;
   createdAt: Date;
+  photoKey?: string;
 }
 
 export interface IUserDocument extends IUser, Document {
@@ -33,6 +34,10 @@ const userSchema = new Schema<IUserDocument>(
       type: Boolean,
       default: true,
     },
+    photoKey: {
+      type: String,
+      required: false,
+    },
     createdAt: {
       type: Date,
       default: Date.now,
@@ -46,6 +51,7 @@ const userSchema = new Schema<IUserDocument>(
         delete ret._id;
         delete ret.__v;
         delete ret.passwordHash;
+        delete ret.photoKey;
         return ret;
       },
     },

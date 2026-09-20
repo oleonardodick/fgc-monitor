@@ -1,5 +1,6 @@
 import cors from "@fastify/cors";
-import type { HealthResponse } from "@fgc-monitor/shared";
+import multipart from "@fastify/multipart";
+import { type HealthResponse, MAX_PROFILE_PHOTO_BYTES } from "@fgc-monitor/shared";
 import Fastify from "fastify";
 import { loadEnvConfig } from "./config/env.js";
 import { authenticate } from "./middlewares/auth.js";
@@ -10,6 +11,7 @@ import scalarPlugin from "./plugins/scalar.js";
 import storagePlugin from "./plugins/storage.js";
 import swaggerPlugin from "./plugins/swagger.js";
 import { authRoutes } from "./routes/auth.js";
+import { profileRoutes } from "./routes/profile.js";
 
 export interface BuildServerOptions {
   /**
@@ -34,6 +36,17 @@ export async function buildServer(options?: BuildServerOptions) {
 
   await app.register(cors, {
     origin: config.corsOrigin,
+    methods: ["GET", "POST", "PUT", "PATCH", "DELETE"],
+  });
+
+  // Upload de arquivos via multipart/form-data (foto de perfil — UC-010).
+  await app.register(multipart, {
+    limits: {
+      fileSize: MAX_PROFILE_PHOTO_BYTES,
+      files: 1,
+      fields: 10,
+    },
+    throwFileSizeLimit: true,
   });
 
   await app.register(swaggerPlugin);
@@ -54,6 +67,9 @@ export async function buildServer(options?: BuildServerOptions) {
 
   // Rotas públicas (auth + health)
   await app.register(authRoutes);
+
+  // Rotas protegidas — identificador do usuário vem do token JWT (RS-001/RS-002).
+  await app.register(profileRoutes);
 
   app.get(
     "/health",

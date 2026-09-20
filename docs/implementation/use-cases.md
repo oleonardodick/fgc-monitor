@@ -32,7 +32,7 @@
 
 | ID     | Use Case         | Ator    | Prioridade | User Flow                                                            | Status    |
 | ------ | ---------------- | ------- | ---------- | ---------------------------------------------------------------------| --------- |
-| UC-010 | Gerenciar perfil | Usuário | Média      | [Gerenciar perfil](./user-flows/usuarios/UC-010-gerenciar-perfil.md) | A definir |
+| UC-010 | Gerenciar perfil | Usuário | Média      | [Gerenciar perfil](./user-flows/usuarios/UC-010-gerenciar-perfil.md) | Em desenvolvimento |
 
 ### 2.3 Busca de taxas do Banco Central
 

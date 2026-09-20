@@ -17,3 +17,12 @@ async function jwtPlugin(fastify: FastifyInstance, _opts: object) {
 export default fp(jwtPlugin, {
   name: "jwt",
 });
+
+declare module "@fastify/jwt" {
+  interface FastifyJWT {
+    user: {
+      sub: string;
+      email: string;
+    };
+  }
+}

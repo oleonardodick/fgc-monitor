@@ -1,6 +1,8 @@
-import type { LoginDTO, UserPublic } from "@fgc-monitor/shared";
+import type { LoginDTO, UserProfile, UserPublic } from "@fgc-monitor/shared";
 import { createContext, type ReactNode, useCallback, useContext, useEffect, useState } from "react";
 import * as authService from "../features/auth/services/authService.js";
+import { getProfilePhotoBlob } from "../features/profile/services/profileService.js";
+import { useProfileStore } from "../features/profile/stores/useProfileStore.js";
 import { AUTH_TOKEN_STORAGE_KEY, AUTH_UNAUTHORIZED_EVENT } from "../services/httpClient.js";
 
 interface AuthState {
@@ -29,29 +31,33 @@ function loadAuthState(): AuthState {
   return { token: null, user: null, isAuthenticated: false };
 }
 
-function persistAuth(token: string, user: UserPublic) {
-  localStorage.setItem(AUTH_TOKEN_STORAGE_KEY, token);
-  localStorage.setItem("auth_user", JSON.stringify(user));
-}
-
-function clearAuth() {
-  localStorage.removeItem(AUTH_TOKEN_STORAGE_KEY);
-  localStorage.removeItem("auth_user");
-}
-
 export function AuthProvider({ children }: { children: ReactNode }) {
   const [state, setState] = useState<AuthState>(loadAuthState);
+  const { setProfile, setPhotoUrl, clearProfile } = useProfileStore();
 
-  const login = useCallback(async (credentials: LoginDTO) => {
-    const response = await authService.login(credentials);
-    persistAuth(response.token, response.user);
-    setState({ token: response.token, user: response.user, isAuthenticated: true });
-  }, []);
+  const login = useCallback(
+    async (credentials: LoginDTO) => {
+      const response = await authService.login(credentials);
+      localStorage.setItem(AUTH_TOKEN_STORAGE_KEY, response.token);
+      setState({ token: response.token, user: response.user, isAuthenticated: true });
+      const blob = await getProfilePhotoBlob();
+      setPhotoUrl(blob ? URL.createObjectURL(blob) : null);
+      const userProfile: UserProfile = {
+        id: response.user.id,
+        name: response.user.name,
+        email: response.user.email,
+        hasPhoto: blob !== null
+      }
+      setProfile(userProfile)
+    },
+    [setPhotoUrl, setProfile],
+  );
 
   const logout = useCallback(() => {
-    clearAuth();
+    localStorage.removeItem(AUTH_TOKEN_STORAGE_KEY);
+    clearProfile();
     setState({ token: null, user: null, isAuthenticated: false });
-  }, []);
+  }, [clearProfile]);
 
   // Token inválido/expirado detectado pelo httpClient (401) → encerrar sessão.
   useEffect(() => {

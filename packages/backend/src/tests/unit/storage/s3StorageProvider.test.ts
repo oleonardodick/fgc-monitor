@@ -1,4 +1,6 @@
 import assert from "node:assert/strict";
+import type { Readable } from "node:stream";
+import { Readable as ReadableImpl } from "node:stream";
 import { mock, test } from "node:test";
 import {
   CreateBucketCommand,
@@ -23,6 +25,8 @@ const config: S3StorageConfig = {
 
 interface FakeClientOptions {
   headBucketThrows?: boolean;
+  getObjectBody?: Readable;
+  getObjectContentType?: string;
 }
 
 function createFakeClient(options: FakeClientOptions = {}) {
@@ -31,6 +35,12 @@ function createFakeClient(options: FakeClientOptions = {}) {
     sentCommands.push(command);
     if (options.headBucketThrows && command instanceof HeadBucketCommand) {
       throw new Error("bucket not found");
+    }
+    if (command instanceof GetObjectCommand) {
+      return {
+        Body: options.getObjectBody ?? ReadableImpl.from([Buffer.from("content")]),
+        ContentType: options.getObjectContentType ?? "image/png",
+      };
     }
     return {};
   });
@@ -115,6 +125,23 @@ test("getSignedUrl: usa expiração padrão de 3600s quando não informada", asy
   await provider.getSignedUrl("users/123/avatar.png");
 
   assert.equal(signCalls[0].options?.expiresIn, 3600);
+});
+
+test("download: envia GetObjectCommand e retorna stream e content type", async () => {
+  const { client, sentCommands } = createFakeClient({
+    getObjectContentType: "image/png",
+  });
+  const provider = new S3StorageProvider(config, { client });
+
+  const download = await provider.download("users/123/avatar.png");
+
+  assert.equal(sentCommands.length, 1);
+  const command = sentCommands[0] as GetObjectCommand;
+  assert.ok(command instanceof GetObjectCommand);
+  assert.equal(command.input.Bucket, "fgc-monitor");
+  assert.equal(command.input.Key, "users/123/avatar.png");
+  assert.equal(download.contentType, "image/png");
+  assert.ok(download.body instanceof ReadableImpl);
 });
 
 test("ensureBucket: cria o bucket quando ele não existe", async () => {

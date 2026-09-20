@@ -1,11 +1,14 @@
-import { ChevronDown, LogOut } from "lucide-react";
+import { ChevronDown, LogOut, UserRound } from "lucide-react";
 import { useEffect, useRef, useState } from "react";
+import { NavLink } from "react-router-dom";
+import { ProfileAvatar } from "../../features/profile/components/ProfileAvatar";
+import { useProfileStore } from "../../features/profile/stores/useProfileStore";
 import { useAuth } from "../../hooks/useAuth";
-import { getInitials } from "../../utils/getInitials";
 import { cn } from "../../utils/merge";
 
 export function UserProfileMenu() {
   const { user, logout } = useAuth();
+  const { userProfile, photoUrl } = useProfileStore();
   const [isOpen, setIsOpen] = useState(false);
   const containerRef = useRef<HTMLDivElement>(null);
 
@@ -39,8 +42,7 @@ export function UserProfileMenu() {
     logout();
   }
 
-  const name = user?.name ?? "Usuário";
-  const initials = getInitials(user?.name);
+  const name = userProfile?.name ?? user?.name ?? "Usuário";
 
   return (
     <div ref={containerRef} className="relative flex items-center gap-1.5">
@@ -52,9 +54,7 @@ export function UserProfileMenu() {
         aria-label={`Menu do perfil de ${name}`}
         className="flex items-center gap-1.5 rounded-full bg-secondary py-1.5 pl-3 pr-2 text-sm font-semibold text-secondary-foreground transition hover:bg-secondary/80 focus-visible:ring-2 focus-visible:ring-ring"
       >
-        <span className="flex h-6 w-6 items-center justify-center rounded-full text-xs">
-          {initials}
-        </span>
+        <ProfileAvatar name={name} photoUrl={photoUrl} className="h-10 w-10 text-sm" />
         <ChevronDown
           aria-hidden="true"
           className={cn("h-4 w-4 transition-transform", isOpen ? "rotate-180" : "")}
@@ -68,6 +68,13 @@ export function UserProfileMenu() {
             <p className="truncate text-xs text-muted-foreground">{user?.email ?? ""}</p>
           </div>
           <div className="mx-4 my-1 h-px bg-border" />
+          <NavLink
+            to="/perfil"
+            className="flex w-full items-center gap-2 rounded-lg px-4 py-2 text-left text-sm text-card-foreground transition hover:bg-secondary focus-visible:ring-2 focus-visible:ring-ring"
+          >
+            <UserRound aria-hidden="true" className="h-4 w-4" />
+            Perfil
+          </NavLink>
           <button
             type="button"
             onClick={handleLogout}

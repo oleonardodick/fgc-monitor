@@ -105,7 +105,15 @@ O sistema validará:
 
 ---
 
-### Step 6 — Redirecionar usuário
+### Step 6 - Subir a foto
+
+Além de salvar as informações na tabela de usuários, o sistema subirá a foto selecionada para o serviço de armazenamento configurado.
+
+Para isso, ele deve utilizar o serviço de **store** configurado na aplicação.
+
+A aplicação de frontend não terá acesso direto a esse store, ela deverá utilizar a aplicação de backend para salvar e buscar a foto do usuário.
+
+### Step 7 — Redirecionar usuário
 
 O sistema redirecionará o usuário para a tela de visualização de perfil.
 
@@ -126,6 +134,8 @@ Não deve ser possível alterar a senha por esta funcionalidade. Esta alteraçã
 ### RN-003 - Foto de perfil
 
 Somente deve ser aceito fotos no formato png ou jpg. A foto deve ter no máximo 400 x 400 pixels, aceitando fotos menores.
+
+O banco de dados não deve armazenar a imagem, apenas o caminho para acessar essa imagem através do serviço de store selecionado.
 
 ### RN-004 - Confirmação de atualização
 
